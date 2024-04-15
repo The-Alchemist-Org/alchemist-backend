@@ -1,0 +1,8 @@
+.env
+.idea
+build
+node_modules
+db.sql
+./*.crt
+./*.key
+serviceAccount.json
