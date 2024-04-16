@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
 import {
     Entity, Column, PrimaryGeneratedColumn, OneToMany
    } from 'typeorm';
