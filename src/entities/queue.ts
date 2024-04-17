@@ -7,7 +7,7 @@ import { Recipe } from './recipe';
      id: number;
      serialNumber: number;
      recipe: Recipe;
-     doneAt: boolean;
+     doneAt: Date;
    }
    
    @Entity('queues')
@@ -24,6 +24,6 @@ import { Recipe } from './recipe';
      recipe: Recipe;
 
      @CreateDateColumn( { name: 'done_at', default: null } )
-     doneAt: boolean;
+     doneAt: Date;
    }
    
