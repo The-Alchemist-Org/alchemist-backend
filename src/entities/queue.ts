@@ -1,11 +1,12 @@
 import {
-    Entity, Column, PrimaryGeneratedColumn, CreateDateColumn
+    Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToOne, JoinColumn
    } from 'typeorm';
+import { Recipe } from './recipe';
    
    export interface IQueue {
      id: number;
      serialNumber: number;
-     recipeId: number;
+     recipe: Recipe;
      doneAt: boolean;
    }
    
@@ -14,11 +15,13 @@ import {
      @PrimaryGeneratedColumn( { name: 'id' } )
      id: number;
 
+     //Subject to Change since serial_number is not yet defined
      @Column( { name: 'serial_number' } )
      serialNumber: number;
 
-     @Column( { name: 'recipe_id' } )
-     recipeId: number;
+     @OneToOne(() => Recipe)
+     @JoinColumn()
+     recipe: Recipe;
 
      @CreateDateColumn( { name: 'done_at', default: null } )
      doneAt: boolean;
