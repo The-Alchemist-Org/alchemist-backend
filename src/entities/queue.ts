@@ -9,7 +9,7 @@ import {
      doneAt: boolean;
    }
    
-   @Entity('recipes')
+   @Entity('queues')
    export class Queue implements IQueue {
      @PrimaryGeneratedColumn( { name: 'id' } )
      id: number;
