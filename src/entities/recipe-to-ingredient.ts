@@ -9,13 +9,13 @@ import {
      @PrimaryGeneratedColumn()
      id: number;
    
-     @Column()
+     @Column( { name: 'recipe_id' } )
      recipeId: number;
 
-     @Column()
+     @Column( { name: 'ingredient_id' } )
      ingredientId: number;
 
-     @Column()
+     @Column( { name: 'quantity' } )
      quantity: number;
 
      @ManyToOne(() => Recipe, (recipe) => recipe.ingredients)
