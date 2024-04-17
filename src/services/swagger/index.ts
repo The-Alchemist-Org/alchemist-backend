@@ -22,7 +22,7 @@ export default (app: Application) => {
     swaggerOptions: {
       url: swaggerJsonUrl,
     },
-  }
+  };
 
   app.get(swaggerJsonUrl, async (req, res) => {
     try {
