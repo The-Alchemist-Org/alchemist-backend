@@ -13,6 +13,7 @@
     "lint:all": "eslint \"./src/**/*.ts\"",
     "migrate:run": "export $(cat .env | xargs) 2>&1 1>/dev/null && npm run build && npm run typeorm migration:run",
     "migrate:revert": "export $(cat .env | xargs) 2>&1 1>/dev/null && npm run build && npm run typeorm migration:revert",
+    "migrate:clean-run": "export $(cat .env | xargs) 2>&1 1>/dev/null && npm run build && npm run typeorm schema:drop && npm run typeorm migration:run",
     "seed": "export $(cat .env | xargs) && node build/bin/seed.js",
     "test:migrate:run": "DB_CONNECTION_NAME=test npm run typeorm -- migration:run",
     "test:migrate:revert": "DB_CONNECTION_NAME=test npm run typeorm -- migration:revert",
