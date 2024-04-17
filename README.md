@@ -31,6 +31,8 @@ npx typeorm migration:create ./src/database/migrations/UserModel
 
 # migrate pending migrations - default connection
 npm run migrate:run
+# clean migrations - default connection
+npm run migrate:clean-run
 # test connection
 npm run test:migrate:run
 
