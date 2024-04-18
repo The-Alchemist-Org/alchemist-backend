@@ -43,7 +43,6 @@ export class RatingModel1713430057593 implements MigrationInterface {
 						referencedColumnNames: ['id'],
 						columnNames: ['user_id']
 					},
-					//Should include serial number as a foreign key constraint whenever that is setup
 				]
 			})
 		)
