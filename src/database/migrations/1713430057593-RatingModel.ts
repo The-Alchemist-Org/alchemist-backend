@@ -50,7 +50,7 @@ export class RatingModel1713430057593 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-        	await queryRunner.dropTable('queues');
+        	await queryRunner.dropTable('ratings');
 	}
 
 }
