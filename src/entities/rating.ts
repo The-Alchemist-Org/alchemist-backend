@@ -1,7 +1,6 @@
 import {
     Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn
    } from 'typeorm';
-import { ImportsNotUsedAsValues } from 'typescript';
 
    export interface IRating {
      id: number;
@@ -12,7 +11,7 @@ import { ImportsNotUsedAsValues } from 'typescript';
    import { User } from './user';
    import { Recipe } from './recipe';
    
-   @Entity('ingredients')
+   @Entity('ratings')
    export class Rating implements IRating {
      @PrimaryGeneratedColumn( { name: 'id' } )
      id: number;
