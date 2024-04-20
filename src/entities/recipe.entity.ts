@@ -1,8 +1,14 @@
 import {
   Entity, Column, PrimaryGeneratedColumn, OneToMany,
 } from 'typeorm';
-import { RecipeToIngredient } from '../recipeToIngredient/recipeToIngredient.entity';
-import { IRecipe } from './types';
+import { RecipeToIngredient } from './recipe-to-ingredient.entity';
+
+export interface IRecipe {
+  id: number;
+  name: string;
+  uploadedBy: string;
+  ingredients: RecipeToIngredient[]
+}
 
 @Entity('recipes')
 export class Recipe implements IRecipe {

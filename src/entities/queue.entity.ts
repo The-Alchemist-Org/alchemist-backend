@@ -1,8 +1,14 @@
 import {
   Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToOne, JoinColumn,
 } from 'typeorm';
-import { Recipe } from '../recipe/recipe.entity';
-import { IQueue } from './types';
+import { Recipe } from './recipe.entity';
+
+export interface IQueue {
+  id: number;
+  serialNumber: number;
+  recipe: Recipe;
+  doneAt: Date;
+}
 
 @Entity('queues')
 export class Queue implements IQueue {

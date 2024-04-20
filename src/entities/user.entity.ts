@@ -4,7 +4,21 @@ import { compareHashedValue, hashValue } from '@root/utils/hash';
 import {
  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,
 } from 'typeorm';
-import { IUser } from './types';
+
+export interface IUser {
+  id: number;
+  email: string;
+  password?: string;
+  forgotPasswordToken?: string;
+  forgotPasswordTokenExpiration?: Date;
+  firstName: string;
+  lastName: string;
+  createdAt: Date;
+  updatedAt?: Date;
+  isPasswordMatch: (password: string) => Promise<boolean>;
+  setPassword: (password: string) => Promise<void>;
+  buildToken: () => Promise<string>;
+}
 
 @Entity('users')
 export class User implements IUser {
