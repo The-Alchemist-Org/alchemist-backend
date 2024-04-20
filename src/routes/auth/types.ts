@@ -4,8 +4,8 @@ export type LoginBody = {
 };
 
 export type SignupBody = {
-  name: string;
   email: string;
-  mobileNumber: string;
+  firstName: string;
+  lastName: string;
   password: string;
 };
