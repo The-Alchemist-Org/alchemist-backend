@@ -6,7 +6,7 @@ const buildUsers = async (amount: number) => {
   const usersList = [...Array(amount)].map(async (_, index) => {
     const user = new User(`user+${index}@$user.com`);
 
-    user.password = 'password';
+    await user.setPassword('password');
     return user;
   });
   return Promise.all(usersList);
