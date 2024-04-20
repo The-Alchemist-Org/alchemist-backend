@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { handleError } from '@root/utils/handleError';
 import { AuthService, IAuthService } from '@root/domains/auth';
+import { isAuth } from '@root/middleware/isAuth';
+import { AuthRequest } from '@root/types/request';
 import { loginValidation, signupValidation } from './validation';
 import { LoginBody, SignupBody } from './types';
 
@@ -8,6 +10,38 @@ export const authRoutes = () => {
   const router = Router();
   const authService: IAuthService = new AuthService();
 
+  /**
+   * @swagger
+   * /auth/me:
+   *   get:
+   *     summary: Get me
+   *     description: Return the user that is currently logged in
+   *     tags:
+   *       - Auth
+   *     security:
+   *       - bearerToken: []
+   *     responses:
+   *       200:
+   *         $ref: '#/components/responses/AuthDTO'
+   *       400:
+   *         $ref: '#/components/responses/BadRequestError'
+   *       401:
+   *         $ref: '#/components/responses/UnauthorizedError'
+   *       403:
+   *         $ref: '#/components/responses/ForbiddenError'
+   */
+  router.get(
+    '/me',
+    isAuth,
+    async (req: AuthRequest, res: Response) => {
+      try {
+        return res.status(200).send(req.auth);
+      } catch (e) {
+        return handleError(e, res);
+      }
+    },
+
+  );
   /**
    * @swagger
    * /auth/login:
