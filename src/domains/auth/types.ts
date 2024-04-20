@@ -1,7 +1,7 @@
 import { IUser } from '@root/entities';
 
 export type AuthDTO = {
-  id: string;
+  id: number;
   email: string;
   firstName: string;
   lastName: string;

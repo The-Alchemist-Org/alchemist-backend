@@ -20,7 +20,7 @@ export class RecipeModel1713267607597 implements MigrationInterface {
           },
           {
             name: 'uploaded_by',
-            type: 'uuid',
+            type: 'int',
             isNullable: false,
           },
         ],
