@@ -43,12 +43,12 @@ export class UserModel1633352340207 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'firstName',
+            name: 'first_name',
             type: 'varchar',
             isNullable: true,
           },
           {
-            name: 'lastName',
+            name: 'last_name',
             type: 'varchar',
             isNullable: true,
           },
