@@ -1,4 +1,4 @@
-import { UserTokenDestructured } from '@root/entities/user';
+import { UserTokenDestructured } from '@entities/user';
 import { decodeJWT } from '@root/services/jwt';
 import logger from '@root/services/logger';
 
