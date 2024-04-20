@@ -4,7 +4,9 @@ import { User } from '@root/entities/user.entity';
 
 const buildUsers = async (amount: number) => {
   const usersList = [...Array(amount)].map(async (_, index) => {
-    const user = new User(`user+${index}@$user.com`);
+    const user = new User(`user+${index}@user.com`);
+    user.firstName = `first_${index}`;
+    user.lastName = `last_${index}`;
 
     await user.setPassword('password');
     return user;
