@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Connection } from 'typeorm';
-import { User } from '@entities/user';
+import { User } from '@root/entities/user.entity';
 
 const buildUsers = async (amount: number) => {
   const usersList = [...Array(amount)].map(async (_, index) => {
