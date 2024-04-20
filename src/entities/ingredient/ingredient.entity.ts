@@ -1,12 +1,8 @@
 import {
   Entity, Column, PrimaryGeneratedColumn, OneToMany,
 } from 'typeorm';
-import { RecipeToIngredient } from './recipe-to-ingredient.entity';
-
-export interface IIngredient {
-  id: number;
-  name: string;
-}
+import { RecipeToIngredient } from '../recipeToIngredient/recipeToIngredient.entity';
+import { IIngredient } from './types';
 
 @Entity('ingredients')
 export class Ingredient implements IIngredient {
