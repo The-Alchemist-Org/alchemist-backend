@@ -1,3 +1,19 @@
 components:
   requestBodies:
-
+    LoginBody:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              required: true
+              description: Users email
+              example: test@email.com
+              format: email
+            password:
+              type: string
+              required: true
+              description: Users password
+              minLength: 7
+              example: Pa$sword00
