@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 export interface IUserRepository {
   save: (user: IUser) => Promise<IUser>;
   findByEmail: (email: string) => Promise<IUser | null>;
-  findById: (id: string) => Promise<IUser | null>;
+  findById: (id: number) => Promise<IUser | null>;
 }
 
 export class UserRepository implements IUserRepository {
@@ -21,7 +21,7 @@ export class UserRepository implements IUserRepository {
     return this.repository.save(user);
   }
 
-  async findById(id: string) {
+  async findById(id: number) {
     return this.repository.findOne({ where: { id } });
   }
 }
