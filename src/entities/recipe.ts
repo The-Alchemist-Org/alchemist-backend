@@ -6,7 +6,7 @@ import {
    export interface IRecipe {
      id: number;
      name: string;
-     uploadedBy: string;
+     uploadedBy: number;
      ingredients: RecipeToIngredient[]
    }
    
@@ -18,8 +18,8 @@ import {
      @Column( { name: 'name' } )
      name:string;
 
-     @Column( { name: 'uploaded_by' } )
-     uploadedBy: string;
+     @Column( { name: 'uploaded_by', default: 1} )
+     uploadedBy: number;
 
      @OneToMany(() => RecipeToIngredient, recipeToIngredient => recipeToIngredient.recipe)
      ingredients: RecipeToIngredient[]

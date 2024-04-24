@@ -20,8 +20,9 @@ export class RecipeModel1713267607597 implements MigrationInterface {
                     },
                     {
                         name: 'uploaded_by',
-                        type: 'uuid',
-                        isNullable: false
+                        type: 'int',
+                        isNullable: true,
+                        default: 1
                     },
                 ],
                 foreignKeys: [{
@@ -43,11 +44,13 @@ export class RecipeModel1713267607597 implements MigrationInterface {
                 },
                 {
                     name: 'recipe_id',
-                    type: 'int'
+                    type: 'int',
+                    isNullable:true
                 },
                 {
                     name: 'ingredient_id',
-                    type: 'int'
+                    type: 'int',
+                    isNullable:true
                 },
                 {
                     name: 'quantity',

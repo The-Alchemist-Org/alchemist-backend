@@ -5,18 +5,17 @@ import {
 
 export class UserModel1633352340207 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
     await queryRunner.createTable(
       new Table({
         name: 'users',
         columns: [
           {
             name: 'id',
-            type: 'uuid',
+            type: 'int',
             isPrimary: true,
             isNullable: false,
             isGenerated: true,
-            generationStrategy: 'uuid',
+            generationStrategy: 'increment',
           },
           {
             name: 'email',
@@ -78,6 +77,5 @@ export class UserModel1633352340207 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropIndex('users', 'user_email_index');
     await queryRunner.dropTable('users');
-    await queryRunner.query('DROP EXTENSION IF EXISTS "uuid-ossp";');
   }
 }

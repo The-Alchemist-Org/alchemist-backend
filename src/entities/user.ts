@@ -4,7 +4,7 @@ import {
 } from 'typeorm';
 
 export interface IUser {
-  id: string;
+  id: number;
   email: string;
   password?: string;
   forgotPasswordToken?: string;
@@ -15,8 +15,8 @@ export interface IUser {
 
 @Entity('users')
 export class User implements IUser {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   email: string;
