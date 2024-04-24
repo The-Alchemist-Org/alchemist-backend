@@ -5,13 +5,27 @@ components:
       properties:
         id:
           type: number
+          required: true
+          description: User ID
+          example: 1
         email:
           type: string
+          required: true
+          description: User email
+          example: test@email.com
+          format: email
         firstName:
           type: string
+          required: true
         lastName:
+          type: string
+          required: true
+        token:
           type: string
         createdAt:
           type: string
+          format: date-time
+          required: true
         updatedAt:
           type: string
+          format: date-time

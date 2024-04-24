@@ -1,7 +1,8 @@
 import { Application } from 'express';
+import { authRoutes } from './auth';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- TODO Add routes per domain
 const registerRoutes = (app: Application) => {
+  app.use('/auth', authRoutes());
 };
 
 export default registerRoutes;

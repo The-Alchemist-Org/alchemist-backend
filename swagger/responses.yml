@@ -63,9 +63,19 @@ components:
               message:
                 type: string
                 description: "Error message"
-    Auth:
+    ConflictError:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: "Error message"
+    AuthDTO:
       description: Auth responses used for login.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ILoginResponse'
+            $ref: "#/components/schemas/ILoginResponse"
