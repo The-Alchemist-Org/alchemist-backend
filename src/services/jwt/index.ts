@@ -15,4 +15,4 @@ export const createJWT = (payload: object) => JWT.sign(payload, config.token, { 
  * @param token {string}
  * @return {Object}
  */
-export const decodeJWT = (token: string) => JWT.verify(token, config.token);
+export const decodeJWT = (token: string): any => JWT.verify(token, config.token);
