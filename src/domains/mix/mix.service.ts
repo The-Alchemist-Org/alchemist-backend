@@ -1,12 +1,12 @@
 import { IQueueRepository, QueueRepository } from '@root/repositories/queue.repository';
 import { DrinkConfigRepository, IDrinkConfigRepository } from '@root/repositories/drinkConfig.repository';
-import { NextDrinkBody } from '@root/routes/mix/types';
+import { DoneBody, NextDrinkBody } from '@root/routes/mix/types';
 import { MixDTO } from './types';
 import { toMixDTO } from './mix.dto';
 
 export interface IMixService {
   mix(mixBody: NextDrinkBody): Promise<MixDTO>;
-  done(machineId: number): void;
+  done(doneBody: DoneBody): Promise<boolean>;
 }
 export class MixService implements IMixService {
   constructor(
@@ -28,8 +28,7 @@ export class MixService implements IMixService {
     return toMixDTO(mixableIngredientMachineSlots, mixableIngredientQuantities);
   }
 
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  async done(machineId: number): Promise<void> {
-  // TODO
+  async done(doneBody: DoneBody): Promise<boolean> {
+    return this.queueRepository.mixDone(doneBody.machineId);
   }
 }
