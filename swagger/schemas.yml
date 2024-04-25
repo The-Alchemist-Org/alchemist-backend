@@ -29,3 +29,20 @@ components:
         updatedAt:
           type: string
           format: date-time
+    INextMixResponse:
+      type: object
+      properties:
+        ingredients:
+          type: array
+          items:
+            type: number
+          required: true
+          description: list of hoppers to mix from
+          example: [1,2,4]
+        quantities:
+          type: array
+          items:
+            type: number
+          required: true
+          description: amounts to pour from hoppers
+          example: [2,2,1.5]

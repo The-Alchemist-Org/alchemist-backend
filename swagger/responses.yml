@@ -79,3 +79,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ILoginResponse"
+    MixDTO:
+      description: Response with mix data for the machine
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/INextMixResponse"
