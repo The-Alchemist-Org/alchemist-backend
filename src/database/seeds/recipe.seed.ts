@@ -39,10 +39,9 @@ const fetchRecipes = async () => {
     what.map((ingredient) => {
       const recti = new RecipeToIngredient();
       recti.ingredient = ingredient;
-      recti.quantity = 1;
+      recti.quantity = parseMeasurments(recipe.strMeasure1);
 
-      const parsedString = parseMeasurments(recipe.strMeasure1);
-      console.log(parsedString);
+      console.log(recti.quantity);
 
       rec.ingredients.push(recti);
     });
@@ -69,14 +68,13 @@ function parseMeasurments(inputString: string) {
 
   const regex = /((\d+(\.\d+)?)|(\d+\/\d+)|(\d+\s+\d+\/\d+))\s*(oz|juice of|tsp|ml|cl|shot|jigger|dl|shots)/g;
 
-  let result = inputString;
   let match;
 
   while ((match = regex.exec(inputString)) !== null) {
     let value;
     if (match[3] !== undefined) {
       // If a decimal number
-      value = parseFloat(match[3]);
+      value = parseInt(match[3]);
   } else if (match[4] !== undefined) {
       // If a fraction
       const [numerator, denominator] = match[4].split('/');
@@ -88,7 +86,7 @@ function parseMeasurments(inputString: string) {
       value = parseInt(wholePart, 10) + parseInt(numerator, 10) / parseInt(denominator, 10);
   } else {
       // If a whole number
-      value = parseFloat(match[1]);
+      value = parseInt(match[1]);
   }
 
   if (!isNaN(value)) { // Check if value is a valid number
@@ -96,13 +94,12 @@ function parseMeasurments(inputString: string) {
       if (measurements.hasOwnProperty(unit)) {
         // Convert the measurement to cl
         const clValue = value * measurements[unit];
-        // Replace the original measurement in the string with the equivalent value in cl
-        result = result.replace(match[0], `${clValue.toFixed(2)} cl`);
+        return Math.round(clValue);
       }
     }
   }
 
-  return result;
+  return null;
 }
 
 export const recipeSeeder = async (connection: Connection) => {
@@ -120,7 +117,7 @@ export const recipeSeeder = async (connection: Connection) => {
 
       recti.recipe = recipe;
       recti.ingredient = ingr;
-      recti.quantity = 1;
+      recti.quantity = recipeToIngredient.quantity;
 
       await recipeToIngredientRepo.save(recti);
     }

@@ -45,16 +45,15 @@ export class RecipeModel1713267607597 implements MigrationInterface {
                 {
                     name: 'recipe_id',
                     type: 'int',
-                    isNullable:true
                 },
                 {
                     name: 'ingredient_id',
                     type: 'int',
-                    isNullable:true
                 },
                 {
                     name: 'quantity',
-                    type: 'int'
+                    type: 'int',
+                    isNullable:true
                 }],
                 foreignKeys: [                
                 {
