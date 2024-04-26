@@ -1,12 +1,12 @@
 import { IQueueRepository, QueueRepository } from '@root/repositories/queue.repository';
 import { DrinkConfigRepository, IDrinkConfigRepository } from '@root/repositories/drinkConfig.repository';
-import { DoneBody, NextDrinkBody } from '@root/routes/mix/types';
+import { Queue } from '@root/entities';
 import { MixDTO } from './types';
 import { toMixDTO } from './mix.dto';
 
 export interface IMixService {
-  mix(mixBody: NextDrinkBody): Promise<MixDTO>;
-  done(doneBody: DoneBody): Promise<boolean>;
+  mix(machineId: number): Promise<MixDTO>;
+  done(machineId: number): Promise<Queue>;
 }
 export class MixService implements IMixService {
   constructor(
@@ -14,9 +14,9 @@ export class MixService implements IMixService {
     private drinkConfigRepository: IDrinkConfigRepository = new DrinkConfigRepository(),
   ) { }
 
-  async mix(mixBody: NextDrinkBody): Promise<MixDTO> {
-    const recipe = await this.queueRepository.nextUp(mixBody.machineId);
-    const drinkConfig = await this.drinkConfigRepository.getMachineConfig(mixBody.machineId);
+  async mix(machineId: number): Promise<MixDTO> {
+    const recipe = await this.queueRepository.getNextQueueItemByMachineId(machineId);
+    const drinkConfig = await this.drinkConfigRepository.getMachineConfig(machineId);
     const mixableIngredients = recipe.recipe.ingredients.filter((ingr) => {
       const test = drinkConfig.find((dc) => dc.ingredient.id === ingr.id);
       return test != null;
@@ -28,7 +28,11 @@ export class MixService implements IMixService {
     return toMixDTO(mixableIngredientMachineSlots, mixableIngredientQuantities);
   }
 
-  async done(doneBody: DoneBody): Promise<boolean> {
-    return this.queueRepository.mixDone(doneBody.machineId);
+  async done(machineId: number) {
+    const doneQueueItem = await this.queueRepository.getNextQueueItemByMachineId(
+      machineId,
+    );
+    doneQueueItem.doneAt = new Date();
+    return this.queueRepository.save(doneQueueItem);
   }
 }
