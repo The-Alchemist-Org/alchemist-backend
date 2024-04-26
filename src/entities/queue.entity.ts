@@ -20,7 +20,7 @@ export class Queue implements IQueue {
     serialNumber: number;
 
   @OneToOne(() => Recipe)
-  @JoinColumn()
+  @JoinColumn({ name: 'recipe_id' })
     recipe: Recipe;
 
   @CreateDateColumn({ name: 'done_at', default: null })
