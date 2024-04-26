@@ -30,7 +30,7 @@ const fetchIngredients = async () => {
     ingredient.name = name;
     return ingredient;
   });
-
+  
   return Promise.all(what);
 };
 
