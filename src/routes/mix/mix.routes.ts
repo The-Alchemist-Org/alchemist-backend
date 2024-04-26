@@ -18,7 +18,7 @@ export const mixRoutes = () => {
    *        $ref: '#/components/responses/MixDTO'
    */
   router.get(
-    ':mixerId/next',
+    '/:mixerId/next',
     async (req: Request, res: Response) => {
       try {
         const mixerId = parseInt(req.params.mixerId, 10);
@@ -47,7 +47,7 @@ export const mixRoutes = () => {
    *
    */
   router.post(
-    ':mixerId/done',
+    '/:mixerId/done',
     async (req: Request, res: Response) => {
       try {
         const mixerId = parseInt(req.params.mixerId, 10);
