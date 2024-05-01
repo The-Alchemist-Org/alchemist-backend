@@ -1,8 +1,8 @@
 import {
   Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn,
 } from 'typeorm';
-import { User } from './user';
-import { Recipe } from './recipe';
+import { User } from './user.entity';
+import { Recipe } from './recipe.entity';
 
 export interface IRating {
   id: number;
