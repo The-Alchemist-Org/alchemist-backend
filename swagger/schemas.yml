@@ -46,3 +46,8 @@ components:
           required: true
           description: amounts to pour from hoppers
           example: [2,2,1.5]
+        queueID:
+          type: number,
+          required: true,
+          description: ID of the queue entry
+          example: 12

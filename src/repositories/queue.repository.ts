@@ -4,6 +4,7 @@ import { IsNull, Repository } from 'typeorm';
 
 export interface IQueueRepository {
   getNextQueueItemByMachineId: (machineId: number) => Promise<IQueue | null>;
+  getQueueItemById: (id: number) => Promise<IQueue | null>;
   save: (queue: IQueue) => Promise<Queue>;
 }
 
@@ -23,6 +24,14 @@ export class QueueRepository implements IQueueRepository {
         recipe: {
           ingredients: true,
         },
+      },
+    });
+  }
+
+  async getQueueItemById(id: number) {
+    return this.repository.findOne({
+      where: {
+        id,
       },
     });
   }

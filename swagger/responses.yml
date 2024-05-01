@@ -73,6 +73,17 @@ components:
               message:
                 type: string
                 description: "Error message"
+    QueueEmptyNotice:
+      description: Nothing in queue.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: "Nothing in queue"
+                example: "Nothing in queue"
     AuthDTO:
       description: Auth responses used for login.
       content:
@@ -85,3 +96,4 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/INextMixResponse"
+
