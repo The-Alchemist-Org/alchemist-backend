@@ -51,3 +51,26 @@ components:
           required: true,
           description: ID of the queue entry
           example: 12
+    IUserTokenDestructured:
+      type: object
+      properties:
+        id:
+          type: number
+          required: true
+          description: User ID
+          example: 1
+        email:
+          type: string
+          required: true
+          description: User email
+          example:
+        firstName:
+          type: string
+          required: true
+        lastName:
+          type: string
+          required: true
+        createdAt:
+          type: string
+          format: date-time
+          required: true

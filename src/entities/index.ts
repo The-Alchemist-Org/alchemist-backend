@@ -4,3 +4,4 @@ export * from './recipe-to-ingredient.entity';
 export * from './recipe.entity';
 export * from './queue.entity';
 export * from './drink-config.entity';
+export * from './rating.entity';

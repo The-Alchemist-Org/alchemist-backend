@@ -5,6 +5,13 @@ import {
  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,
 } from 'typeorm';
 
+export interface UserTokenDestructured {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  createdAt: Date;
+}
 export interface IUser {
   id: number;
   email: string;

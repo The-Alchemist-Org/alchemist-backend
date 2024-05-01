@@ -96,4 +96,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/INextMixResponse"
-
+    UserTokenDestructured:
+      description: Destructured user token.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/IUserTokenDestructured"

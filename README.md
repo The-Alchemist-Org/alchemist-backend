@@ -51,3 +51,7 @@ Run tests:
 ```shell
 npm test
 ```
+
+## API documentation
+
+This project uses swagger available at [http://localhost:3000/api-docs/](http://localhost:3000/api-docs/) when env === `development`. Swagger docs are autoupdated on build.
