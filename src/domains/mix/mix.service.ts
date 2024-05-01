@@ -15,14 +15,19 @@ export class MixService implements IMixService {
   ) { }
 
   async mix(machineId: number): Promise<MixDTO> {
-    const recipe = await this.queueRepository.getNextQueueItemByMachineId(machineId);
+    const qitem = await this.queueRepository.getNextQueueItemByMachineId(machineId);
     const drinkConfig = await this.drinkConfigRepository.getMachineConfig(machineId);
-    const mixableIngredients = recipe.recipe.ingredients.filter((ingr) => {
-      const test = drinkConfig.find((dc) => dc.ingredient.id === ingr.id);
+    const mixableIngredients = qitem.recipe.ingredients.filter((ingr) => {
+      const test = drinkConfig.find((dc) => dc.ingredient.id === ingr.ingredientId);
       return test != null;
     });
+    console.log('mixableIngredients');
+    console.log(mixableIngredients);
+
+    console.log(`drinkConfig: ${JSON.stringify(drinkConfig)}`);
+
     const mixableIngredientMachineSlots = mixableIngredients.map(
-      (ingr) => drinkConfig.find((dc) => dc.ingredient.id === ingr.id).id,
+      (ingr) => drinkConfig.find((dc) => dc.ingredient.id === ingr.ingredientId).id,
     );
     const mixableIngredientQuantities = mixableIngredients.map((ingr) => ingr.quantity);
     return toMixDTO(mixableIngredientMachineSlots, mixableIngredientQuantities);

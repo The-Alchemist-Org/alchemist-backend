@@ -13,6 +13,10 @@ export class DrinkConfigRepository implements IDrinkConfigRepository {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getMachineConfig(machineId: number) {
     // TODO machine ID not yet implemented in this table
-    return this.repository.find({});
+    return this.repository.find({
+      relations: {
+        ingredient: true,
+      },
+    });
   }
 }

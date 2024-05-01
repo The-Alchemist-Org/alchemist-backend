@@ -19,6 +19,11 @@ export class QueueRepository implements IQueueRepository {
       order: {
         id: 'ASC',
       },
+      relations: {
+        recipe: {
+          ingredients: true,
+        },
+      },
     });
   }
 

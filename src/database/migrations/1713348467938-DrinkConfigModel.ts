@@ -13,7 +13,7 @@ export class DrinkConfigModel1713348467938 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: 'ingredient_id',
+            name: 'ingredient',
             type: 'int',
           },
           {
@@ -24,10 +24,10 @@ export class DrinkConfigModel1713348467938 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'ingredient_id',
+            name: 'ingredient',
             referencedTableName: 'ingredients',
             referencedColumnNames: ['id'],
-            columnNames: ['ingredient_id'],
+            columnNames: ['ingredient'],
           },
 
         ],

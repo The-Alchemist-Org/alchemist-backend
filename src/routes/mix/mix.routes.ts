@@ -22,6 +22,7 @@ export const mixRoutes = () => {
     async (req: Request, res: Response) => {
       try {
         const mixerId = parseInt(req.params.mixerId, 10);
+        console.log(`mixerId: ${mixerId}`);
         const response = await mixService.mix(mixerId);
         return res.status(200).send(response);
       } catch (e) {

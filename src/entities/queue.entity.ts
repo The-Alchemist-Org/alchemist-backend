@@ -1,5 +1,5 @@
 import {
-  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToOne, JoinColumn,
+  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, JoinColumn, ManyToOne,
 } from 'typeorm';
 import { Recipe } from './recipe.entity';
 
@@ -19,7 +19,7 @@ export class Queue implements IQueue {
   @Column({ name: 'serial_number' })
     serialNumber: number;
 
-  @OneToOne(() => Recipe)
+  @ManyToOne(() => Recipe)
   @JoinColumn({ name: 'recipe_id' })
     recipe: Recipe;
 
