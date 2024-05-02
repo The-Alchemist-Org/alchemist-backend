@@ -25,7 +25,6 @@ export const queueRoutes = () => {
     '/add',
     async (req: Request<null, null, AddToQueueBody>, res: Response) => {
       try {
-        console.log(req.body);
         const response = await queueService.add(req.body);
         return res.status(200).send(response);
       } catch (e) {
