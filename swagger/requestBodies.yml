@@ -44,3 +44,20 @@ components:
               required: true
               description: Users last name
               example: User
+    DoneBody:
+      application/json:
+        schema:
+          type: object
+          properties:
+            machineID:
+              type: number
+              required: true
+              description: the ID of the machine
+              example: 123456
+              format: number
+            queueID:
+              type: number
+              required: true
+              description: the ID of the queue item that is done
+              example: 12
+              format: number

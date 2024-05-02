@@ -15,7 +15,7 @@ export class DrinkConfig implements IDrinkConfig {
     id: number;
 
   @OneToOne(() => Ingredient)
-  @JoinColumn()
+  @JoinColumn({ name: 'ingredient' })
     ingredient: Ingredient;
 
   @Column({ name: 'amount_left' })

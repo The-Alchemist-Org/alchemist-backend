@@ -1,5 +1,5 @@
 import {
-  Entity, Column, PrimaryGeneratedColumn, ManyToOne,
+  Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn,
 } from 'typeorm';
 import { Recipe } from './recipe.entity';
 import { Ingredient } from './ingredient.entity';
@@ -19,8 +19,10 @@ export class RecipeToIngredient {
     quantity: number;
 
   @ManyToOne(() => Recipe, (recipe) => recipe.ingredients)
+  @JoinColumn({ name: 'recipe_id' })
     recipe: Recipe;
 
   @ManyToOne(() => Ingredient, (ingredient) => ingredient.recipeToIngredients)
+  @JoinColumn({ name: 'ingredient_id' })
     ingredient: Ingredient;
 }
