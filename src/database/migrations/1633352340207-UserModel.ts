@@ -13,7 +13,6 @@ export class UserModel1633352340207 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
-            isNullable: false,
             isGenerated: true,
             generationStrategy: 'increment',
           },

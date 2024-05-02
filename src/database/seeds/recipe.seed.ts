@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Connection } from 'typeorm';
-import { Ingredient } from '@entities/ingredient';
+import { Ingredient } from '@entities/ingredient.entity';
 import { Recipe, RecipeToIngredient } from '@root/entities';
 import { drinks } from './drinks';
 
@@ -51,7 +51,7 @@ const fetchRecipes = async () => {
   }, new Set<Recipe>());
 
   return Promise.all(recipesList);
-}
+};
 
 function parseMeasurments(inputString: string) {
   const measurements: { [key: string]: number } = {
@@ -75,21 +75,21 @@ function parseMeasurments(inputString: string) {
     if (match[3] !== undefined) {
       // If a decimal number
       value = parseInt(match[3]);
-  } else if (match[4] !== undefined) {
+    } else if (match[4] !== undefined) {
       // If a fraction
       const [numerator, denominator] = match[4].split('/');
       value = parseInt(numerator, 10) / parseInt(denominator, 10);
-  } else if (match[5] !== undefined) {
+    } else if (match[5] !== undefined) {
       // If a mixed number
       const [wholePart, fractionPart] = match[5].split(' ');
       const [numerator, denominator] = fractionPart.split('/');
       value = parseInt(wholePart, 10) + parseInt(numerator, 10) / parseInt(denominator, 10);
-  } else {
+    } else {
       // If a whole number
       value = parseInt(match[1]);
-  }
+    }
 
-  if (!isNaN(value)) { // Check if value is a valid number
+    if (!isNaN(value)) { // Check if value is a valid number
       const unit = match[6];
       if (measurements.hasOwnProperty(unit)) {
         // Convert the measurement to cl

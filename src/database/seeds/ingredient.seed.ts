@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Connection } from 'typeorm';
-import { Ingredient } from '@entities/ingredient';
+import { Ingredient } from '@entities/ingredient.entity';
 import { drinks } from './drinks';
 
 const fetchIngredients = async () => {
@@ -30,7 +30,7 @@ const fetchIngredients = async () => {
     ingredient.name = name;
     return ingredient;
   });
-  
+
   return Promise.all(what);
 };
 

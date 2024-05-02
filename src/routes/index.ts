@@ -1,7 +1,10 @@
 import { Application } from 'express';
+import { authRoutes } from './auth';
+import { mixRoutes } from './mix';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- TODO Add routes per domain
 const registerRoutes = (app: Application) => {
+  app.use('/auth', authRoutes());
+  app.use('/mix', mixRoutes());
 };
 
 export default registerRoutes;

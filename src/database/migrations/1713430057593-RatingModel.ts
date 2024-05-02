@@ -1,11 +1,10 @@
-/* eslint-disable class-methods-use-this */
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class QueueModel1713346842774 implements MigrationInterface {
+export class RatingModel1713430057593 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'queues',
+        name: 'ratings',
         columns: [
           {
             name: 'id',
@@ -15,35 +14,40 @@ export class QueueModel1713346842774 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
-            name: 'serial_number',
-            type: 'int',
-            isNullable: false,
-          },
-          {
             name: 'recipe_id',
             type: 'int',
             isNullable: false,
           },
           {
-            name: 'done_at',
-            type: 'timestamp',
-            isNullable: true,
-            default: null,
+            name: 'user_id',
+            type: 'int',
+            isNullable: false,
+          },
+          {
+            name: 'rating',
+            type: 'int',
+            isNullable: false,
           },
         ],
-        foreignKeys: [{
-          name: 'recipe_id',
-          referencedTableName: 'recipes',
-          referencedColumnNames: ['id'],
-          columnNames: ['recipe_id'],
-        },
-          // Should include serial number as a foreign key constraint whenever that is setup
+        foreignKeys: [
+          {
+            name: 'recipe_id',
+            referencedTableName: 'recipes',
+            referencedColumnNames: ['id'],
+            columnNames: ['recipe_id'],
+          },
+          {
+            name: 'user_id',
+            referencedTableName: 'users',
+            referencedColumnNames: ['id'],
+            columnNames: ['user_id'],
+          },
         ],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('queues');
+    await queryRunner.dropTable('ratings');
   }
 }

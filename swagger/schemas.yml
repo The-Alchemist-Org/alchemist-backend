@@ -5,13 +5,72 @@ components:
       properties:
         id:
           type: number
+          required: true
+          description: User ID
+          example: 1
         email:
           type: string
+          required: true
+          description: User email
+          example: test@email.com
+          format: email
         firstName:
           type: string
+          required: true
         lastName:
+          type: string
+          required: true
+        token:
           type: string
         createdAt:
           type: string
+          format: date-time
+          required: true
         updatedAt:
           type: string
+          format: date-time
+    INextMixResponse:
+      type: object
+      properties:
+        ingredients:
+          type: array
+          items:
+            type: number
+          required: true
+          description: list of hoppers to mix from
+          example: [1,2,4]
+        quantities:
+          type: array
+          items:
+            type: number
+          required: true
+          description: amounts to pour from hoppers
+          example: [2,2,1.5]
+        queueID:
+          type: number,
+          required: true,
+          description: ID of the queue entry
+          example: 12
+    IUserTokenDestructured:
+      type: object
+      properties:
+        id:
+          type: number
+          required: true
+          description: User ID
+          example: 1
+        email:
+          type: string
+          required: true
+          description: User email
+          example:
+        firstName:
+          type: string
+          required: true
+        lastName:
+          type: string
+          required: true
+        createdAt:
+          type: string
+          format: date-time
+          required: true
