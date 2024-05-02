@@ -21,7 +21,7 @@ export class RecipeModel1713267607597 implements MigrationInterface {
           {
             name: 'uploaded_by',
             type: 'int',
-            isNullable: false,
+            isNullable: true,
           },
         ],
         foreignKeys: [{
@@ -53,6 +53,7 @@ export class RecipeModel1713267607597 implements MigrationInterface {
         {
           name: 'quantity',
           type: 'int',
+          isNullable: true,
         }],
         foreignKeys: [
           {
