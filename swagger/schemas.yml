@@ -79,7 +79,7 @@ components:
       items:
         type: object
         properties:
-          iD:
+          id:
             type: number
           name:
             type: string

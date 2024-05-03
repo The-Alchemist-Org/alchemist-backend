@@ -1,5 +1,4 @@
 export type IngredientDTO = {
-  iD: number;
+  id: number;
   name: string;
 };
-

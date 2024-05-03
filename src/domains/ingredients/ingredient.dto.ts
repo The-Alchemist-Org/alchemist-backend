@@ -4,6 +4,6 @@ import { IngredientDTO } from './types';
 export const toIngredientDTO = async (
   ingredient: IIngredient,
 ): Promise<IngredientDTO> => ({
-  iD: ingredient.id,
+  id: ingredient.id,
   name: ingredient.name,
 });
