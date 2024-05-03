@@ -1,7 +1,9 @@
 import { Request, Response, Router } from 'express';
 import { handleError } from '@root/utils/handleError';
 import { IQueueService, QueueService } from '@root/domains/queue';
+import { isAuth } from '@root/middleware/isAuth';
 import { AddToQueueBody } from './types';
+import { addValidation } from './validation';
 
 export const queueRoutes = () => {
   const router = Router();
@@ -20,9 +22,13 @@ export const queueRoutes = () => {
    *    responses:
    *      200:
    *        $ref: '#/components/responses/QueueID'
+   *      400:
+   *        $ref: '#/components/responses/BadRequestError'
    */
   router.post(
     '/add',
+    isAuth,
+    addValidation,
     async (req: Request<null, null, AddToQueueBody>, res: Response) => {
       try {
         const response = await queueService.add(req.body);

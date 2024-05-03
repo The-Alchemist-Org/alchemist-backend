@@ -2,6 +2,7 @@ import { IQueueRepository, QueueRepository } from '@root/repositories/queue.repo
 import { Queue } from '@root/entities';
 import { AddToQueueBody } from '@root/routes/queue/types';
 import { IRecipeRepository, RecipeRepository } from '@root/repositories/recipe.repository';
+import StatusError from '@root/utils/statusError';
 import { toQueueDTO } from './queue.dto';
 import { QueueDTO } from './types';
 
@@ -15,6 +16,7 @@ export class QueueService implements IQueueService {
   ) { }
 
   async add(addToQueueBody: AddToQueueBody) {
+    if (addToQueueBody.recipeID == null || addToQueueBody.machineID == null) { throw new StatusError(400, 'bad request'); }
     const newQueueItem = new Queue();
     const recipe = await this.recipeRepository.getRecipeById(addToQueueBody.recipeID);
     newQueueItem.recipe = recipe;
