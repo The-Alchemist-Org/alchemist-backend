@@ -102,7 +102,7 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/IUserTokenDestructured"
-    QueueID:
+    QueueId:
       description: the id of the newly created queue entry.
       content:
         application/json:

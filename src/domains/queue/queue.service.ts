@@ -18,7 +18,7 @@ export class QueueService implements IQueueService {
   async add(addToQueueBody: AddToQueueBody) {
     if (addToQueueBody.recipeId == null || addToQueueBody.machineId == null) { throw new StatusError(400, 'bad request'); }
     const newQueueItem = new Queue();
-    const recipe = await this.recipeRepository.getRecipeById(addToQueueBody.recipeID);
+    const recipe = await this.recipeRepository.getRecipeById(addToQueueBody.recipeId);
     newQueueItem.recipe = recipe;
     newQueueItem.serialNumber = addToQueueBody.machineId;
     const savedQueueItem = await this.queueRepository.save(newQueueItem);

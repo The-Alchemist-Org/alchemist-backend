@@ -5,7 +5,7 @@ import { IngredientDTO } from './types';
 import { toIngredientDTO } from './ingredient.dto';
 
 export interface IIngredientsService {
-  present(machineID: number): Promise<IngredientDTO[]>;
+  present(machineId: number): Promise<IngredientDTO[]>;
 }
 export class IngredientsService implements IIngredientsService {
   constructor(
@@ -14,8 +14,8 @@ export class IngredientsService implements IIngredientsService {
     private drinkConfigRepository: IDrinkConfigRepository = new DrinkConfigRepository(),
   ) { }
 
-  async present(mixerID: number) {
-    const drinkConfig = await this.drinkConfigRepository.getMachineConfig(mixerID);
+  async present(mixerId: number) {
+    const drinkConfig = await this.drinkConfigRepository.getMachineConfig(mixerId);
     const ingredients = drinkConfig.map<Promise<IngredientDTO>>(
       (drink) => toIngredientDTO(drink.ingredient),
     );

@@ -36,12 +36,12 @@ export class MixService implements IMixService {
 
   async done(doneBody: DoneBody) {
     const doneQueueItem = await this.queueRepository.getQueueItemById(
-      doneBody.queueID,
+      doneBody.queueId,
     );
     if (doneQueueItem == null) {
       throw new StatusError(409, 'No such queue item');
     }
-    if (doneQueueItem.serialNumber !== doneBody.machineID) {
+    if (doneQueueItem.serialNumber !== doneBody.machineId) {
       throw new StatusError(409, 'This queue item belongs to another machine.');
     }
     if (doneQueueItem.doneAt !== null) {

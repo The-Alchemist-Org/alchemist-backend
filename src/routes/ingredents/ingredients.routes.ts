@@ -9,10 +9,10 @@ export const ingredientsRoutes = () => {
 
   /**
    * @swagger
-   * /ingredients/:mixerID/present:
+   * /ingredients/:mixerId/present:
    *  post:
    *    summary: get ingredients present in the machine
-   *    description: "get all ingredients present in the mixer with id :mixerID"
+   *    description: "get all ingredients present in the mixer with id :mixerId"
    *    responses:
    *      200:
    *        $ref: '#/components/responses/RecipesDTO'
@@ -20,11 +20,11 @@ export const ingredientsRoutes = () => {
    *        $ref: '#/components/responses/BadRequestError'
    */
   router.get(
-    '/:mixerID/present',
+    '/:mixerId/present',
     isAuth,
     async (req: Request, res: Response) => {
       try {
-        const mixerId = parseInt(req.params.mixerID, 10);
+        const mixerId = parseInt(req.params.mixerId, 10);
         const response = await ingredientsService.present(mixerId);
         return res.status(200).send(response);
       } catch (e) {

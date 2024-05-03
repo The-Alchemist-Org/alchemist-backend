@@ -1,4 +1,4 @@
 export type AddToQueueBody = {
-  recipeID: number;
-  machineID: number;
+  recipeId: number;
+  machineId: number;
 };
