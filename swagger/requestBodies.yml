@@ -49,16 +49,16 @@ components:
         schema:
           type: object
           properties:
-            machineID:
+            machineId:
               type: number
               required: true
-              description: the ID of the machine
+              description: the Id of the machine
               example: 123456
               format: number
-            queueID:
+            queueId:
               type: number
               required: true
-              description: the ID of the queue item that is done
+              description: the Id of the queue item that is done
               example: 12
               format: number
     AddToQueueBody:

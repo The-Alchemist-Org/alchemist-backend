@@ -21,7 +21,7 @@ export const queueRoutes = () => {
    *        $ref: '#/components/requestBodies/AddToQueueBody'
    *    responses:
    *      200:
-   *        $ref: '#/components/responses/QueueID'
+   *        $ref: '#/components/responses/QueueId'
    *      400:
    *        $ref: '#/components/responses/BadRequestError'
    */

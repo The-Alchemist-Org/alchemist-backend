@@ -46,7 +46,7 @@ components:
           required: true
           description: amounts to pour from hoppers
           example: [2,2,1.5]
-        queueID:
+        queueId:
           type: number,
           required: true,
           description: ID of the queue entry
@@ -74,3 +74,14 @@ components:
           type: string
           format: date-time
           required: true
+    IRecipesResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: number
+          name:
+            type: string
+      required: true
+      description: list of recipes
