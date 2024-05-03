@@ -109,8 +109,8 @@ components:
           schema:
             type: object
             properties:
-              queueID:
+              queueId:
                 type: number
-                description: "the id of the newly created queue entry"
+                description: "the Id of the newly created queue entry"
                 example: 1234
 

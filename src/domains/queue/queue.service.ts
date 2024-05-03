@@ -16,11 +16,11 @@ export class QueueService implements IQueueService {
   ) { }
 
   async add(addToQueueBody: AddToQueueBody) {
-    if (addToQueueBody.recipeID == null || addToQueueBody.machineID == null) { throw new StatusError(400, 'bad request'); }
+    if (addToQueueBody.recipeId == null || addToQueueBody.machineId == null) { throw new StatusError(400, 'bad request'); }
     const newQueueItem = new Queue();
     const recipe = await this.recipeRepository.getRecipeById(addToQueueBody.recipeID);
     newQueueItem.recipe = recipe;
-    newQueueItem.serialNumber = addToQueueBody.machineID;
+    newQueueItem.serialNumber = addToQueueBody.machineId;
     const savedQueueItem = await this.queueRepository.save(newQueueItem);
     return toQueueDTO(savedQueueItem);
   }

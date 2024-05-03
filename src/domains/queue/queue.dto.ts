@@ -4,7 +4,7 @@ import { QueueDTO } from './types';
 export const toQueueDTO = async (
   queueItem: IQueue,
 ): Promise<QueueDTO> => ({
-  queueID: queueItem.id,
-  recipeID: queueItem.recipe.id,
-  machineID: queueItem.serialNumber,
+  queueId: queueItem.id,
+  recipeId: queueItem.recipe.id,
+  machineId: queueItem.serialNumber,
 });

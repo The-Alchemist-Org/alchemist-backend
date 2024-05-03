@@ -1,5 +1,5 @@
 export type QueueDTO = {
-  queueID: number;
-  machineID: number;
-  recipeID: number;
+  queueId: number;
+  machineId: number;
+  recipeId: number;
 };
