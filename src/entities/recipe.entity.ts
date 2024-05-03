@@ -1,5 +1,5 @@
 import {
-  Entity, Column, PrimaryGeneratedColumn, OneToMany,
+  Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinTable,
 } from 'typeorm';
 import { RecipeToIngredient } from './recipe-to-ingredient.entity';
 
@@ -22,5 +22,6 @@ export class Recipe implements IRecipe {
     uploadedBy: string;
 
   @OneToMany(() => RecipeToIngredient, (recipeToIngredient) => recipeToIngredient.recipe)
+  @JoinTable({ name: 'ingredient_id' })
     ingredients: RecipeToIngredient[];
 }

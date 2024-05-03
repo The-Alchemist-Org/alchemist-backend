@@ -40,10 +40,8 @@ const fetchRecipes = async () => {
       const recti = new RecipeToIngredient();
       recti.ingredient = ingredient;
       recti.quantity = parseMeasurments(recipe.strMeasure1);
-
-      console.log(recti.quantity);
-
       rec.ingredients.push(recti);
+      return true;
     });
 
     acc.add(rec);
@@ -74,7 +72,7 @@ function parseMeasurments(inputString: string) {
     let value;
     if (match[3] !== undefined) {
       // If a decimal number
-      value = parseInt(match[3]);
+      value = parseInt(match[3], 10);
     } else if (match[4] !== undefined) {
       // If a fraction
       const [numerator, denominator] = match[4].split('/');
@@ -86,10 +84,10 @@ function parseMeasurments(inputString: string) {
       value = parseInt(wholePart, 10) + parseInt(numerator, 10) / parseInt(denominator, 10);
     } else {
       // If a whole number
-      value = parseInt(match[1]);
+      value = parseInt(match[1], 10);
     }
 
-    if (!isNaN(value)) { // Check if value is a valid number
+    if (!Number.isNaN(value)) { // Check if value is a valid number
       const unit = match[6];
       if (measurements.hasOwnProperty(unit)) {
         // Convert the measurement to cl
