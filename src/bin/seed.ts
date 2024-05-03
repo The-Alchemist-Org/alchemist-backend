@@ -3,17 +3,16 @@ import 'module-alias/register';
 import { initDB } from '@services/database';
 import * as seeds from '../database/seeds';
 
-initDB().then((connection) => {
+initDB().then(async (connection) => {
   const entries = Object.entries(seeds);
 
-  return Promise.all(
-    entries.map(async ([seeder, callback]) => {
-      if (typeof callback !== 'function') {
-        return;
-      }
-      // eslint-disable-next-line no-console
-      console.log(`Running seed ${seeder}`);
-      callback(connection);
-    }),
-  );
+  for (const [seeder, callback] of entries) {
+    if (typeof callback !== 'function') {
+      continue;
+    }
+    console.log(`Running seed ${seeder}`);
+    await callback(connection);
+  }
+
+  await connection.close();
 });

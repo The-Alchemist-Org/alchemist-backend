@@ -1,12 +1,14 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Connection } from 'typeorm';
-import { User } from '@entities/user';
+import { User } from '@root/entities/user.entity';
 
 const buildUsers = async (amount: number) => {
   const usersList = [...Array(amount)].map(async (_, index) => {
-    const user = new User(`user+${index}@$user.com`);
+    const user = new User(`user+${index}@user.com`);
+    user.firstName = `first_${index}`;
+    user.lastName = `last_${index}`;
 
-    user.password = 'password';
+    await user.setPassword('password');
     return user;
   });
   return Promise.all(usersList);
