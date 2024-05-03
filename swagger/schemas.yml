@@ -74,3 +74,14 @@ components:
           type: string
           format: date-time
           required: true
+    IRecipesResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          iD:
+            type: number
+          name:
+            type: string
+      required: true
+      description: list of recipes
