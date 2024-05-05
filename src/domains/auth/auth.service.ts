@@ -41,5 +41,3 @@ export class AuthService implements IAuthService {
     return toAuthDTO(await this.authRepository.save(newUser));
   }
 }
-
-// test
