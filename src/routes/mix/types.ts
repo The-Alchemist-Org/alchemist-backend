@@ -1,4 +1,4 @@
 export type DoneBody = {
-  machineID: number;
-  queueID: number;
+  machineId: number;
+  queueId: number;
 };
