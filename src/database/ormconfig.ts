@@ -22,7 +22,7 @@ const getDbSource = () => {
     case 'gcp':
       return {
         type: 'postgres',
-        host: process.env.DB_HOST,
+        host: process.env.CLOUD_SQL_CONNECTION_NAME,
         port: process.env.DB_PORT as unknown as number,
         username: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
@@ -36,6 +36,7 @@ const getDbSource = () => {
         },
         extra: {
           max: 10,
+          socketPath: process.env.CLOUD_SQL_CONNECTION_NAME,
         },
       } as PostgresConnectionOptions;
     default:
