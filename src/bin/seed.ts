@@ -10,7 +10,6 @@ initDB().then(async (connection) => {
     if (typeof callback !== 'function') {
       continue;
     }
-    console.log(`Running seed ${seeder}`);
     await callback(connection);
   }
 

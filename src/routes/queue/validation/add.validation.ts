@@ -1,7 +1,7 @@
 import validationMiddleware from '@root/utils/validationMiddleware';
 import { z } from 'zod';
 
-export const doneValidation = validationMiddleware(z.object({
+export const addValidation = validationMiddleware(z.object({
+  recipeId: z.number().int(),
   machineId: z.number().int(),
-  queueId: z.number().int(),
 }));
