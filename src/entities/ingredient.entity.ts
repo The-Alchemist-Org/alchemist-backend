@@ -6,6 +6,7 @@ import { RecipeToIngredient } from './recipe-to-ingredient.entity';
 export interface IIngredient {
   id: number;
   name: string;
+  recipeToIngredients: RecipeToIngredient[]
 }
 
 @Entity('ingredients')

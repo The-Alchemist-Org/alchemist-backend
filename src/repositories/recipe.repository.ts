@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 export interface IRecipeRepository {
   getRecipeById: (recipeId: number) => Promise<IRecipe | null>;
+  getRecipeBySearch: (search: string) => Promise<IRecipe[] | null>;
   save: (queue: IRecipe) => Promise<Recipe>;
 }
 
@@ -19,6 +20,12 @@ export class RecipeRepository implements IRecipeRepository {
         ingredients: true,
       },
     });
+  }
+
+  async getRecipeBySearch(search: string){
+    return this.repository.createQueryBuilder('recipe')
+      .where('recipe.name ILIKE :search', { search: `%${search}%`})
+      .getMany();
   }
 
   async save(recipe: IRecipe) {

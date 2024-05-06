@@ -102,3 +102,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/IUserTokenDestructured"
+    RecipesDTO:
+      description: Response with recipes
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/IRecipeResponse"

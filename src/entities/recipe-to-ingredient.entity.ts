@@ -4,8 +4,15 @@ import {
 import { Recipe } from './recipe.entity';
 import { Ingredient } from './ingredient.entity';
 
+export interface IRecipeToIngredient {
+  id: number;
+  recipeId: number;
+  ingredientId: number;
+  quantity: number;
+}
+
 @Entity('recipe_to_ingredient')
-export class RecipeToIngredient {
+export class RecipeToIngredient implements IRecipeToIngredient {
   @PrimaryGeneratedColumn()
     id: number;
 
