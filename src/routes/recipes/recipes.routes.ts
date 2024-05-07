@@ -29,12 +29,7 @@ export const recipesRoutes = () => {
     '/',
     async (req: Request, res: Response) => {
       try {
-        /**
-         * TODO: 
-         * Swagger docs
-         */
-        const { search } = req.query;
-        const recipes = await recipeService.search(search.toString());
+        const recipes = await recipeService.search(req);
         return res.status(200).send(recipes);
       } catch (e) {
         return handleError(e, res);
