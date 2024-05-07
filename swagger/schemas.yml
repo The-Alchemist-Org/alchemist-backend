@@ -74,14 +74,36 @@ components:
           type: string
           format: date-time
           required: true
-    IRecipesResponse:
-      type: array
-      items:
+    IRecipeResponse:
         type: object
         properties:
           id:
-            type: number
+            type: integer
+            description: The unique identifier for the cocktail recipe
           name:
             type: string
-      required: true
-      description: list of recipes
+            description: The name of the cocktail
+          uploadedBy:
+            type: string
+            nullable: true
+            description: The user who uploaded the cocktail recipe
+          ingredients:
+            type: array
+            items:
+              $ref: '#/components/schemas/Ingredient'
+    Ingredient:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: The unique identifier for the ingredient
+          recipeId:
+            type: integer
+            description: The ID of the recipe this ingredient belongs to
+          ingredientId:
+            type: integer
+            description: The ID of the ingredient
+          quantity:
+            type: number
+            nullable: true
+            description: The quantity of the ingredient required for the recipe
