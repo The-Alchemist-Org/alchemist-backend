@@ -21,7 +21,7 @@ export const ingredientsRoutes = () => {
    */
   router.get(
     '/:mixerId/present',
-    // isAuth,
+    isAuth,
     async (req: Request, res: Response) => {
       try {
         const mixerId = parseInt(req.params.mixerId, 10);
@@ -47,7 +47,7 @@ export const ingredientsRoutes = () => {
    */
   router.get(
     '/all',
-    // isAuth,
+    isAuth,
     async (req: Request, res: Response) => {
       try {
         const response = await ingredientsService.all();
