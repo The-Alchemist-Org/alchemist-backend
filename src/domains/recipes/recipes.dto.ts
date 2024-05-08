@@ -5,10 +5,10 @@ export const toRecipesDTO = async (
   recipeId: number,
   recipeName: string,
   recipeUploadedBy: string,
-  recipeIngredients: IRecipeToIngredient[]
+  recipeIngredients: IRecipeToIngredient[],
 ): Promise<RecipesDTO> => ({
-    id: recipeId,
-    name: recipeName,
-    uploadedBy: recipeUploadedBy,
-    ingredients: recipeIngredients
+  id: recipeId,
+  name: recipeName,
+  uploadedBy: recipeUploadedBy,
+  ingredients: recipeIngredients,
 });

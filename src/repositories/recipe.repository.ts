@@ -3,7 +3,7 @@ import { buildRepository } from '@root/services/database';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
 
-export interface RecipeSearchResult{
+export interface RecipeSearchResult {
   results: IRecipe[],
   totalPages: number,
 }
@@ -28,25 +28,25 @@ export class RecipeRepository implements IRecipeRepository {
     });
   }
 
-  async getRecipeBySearch(req: Request){
-    const search = req.query.search || "";
-    const page = parseInt(req.query.page?.toString()) - 1 || 0;
-    const limit = parseInt(req.query.limit?.toString()) || 5;
-    
+  async getRecipeBySearch(req: Request) {
+    const search = req.query.search || '';
+    const page = parseInt(req.query.page?.toString(), 10) - 1 || 0;
+    const limit = parseInt(req.query.limit?.toString(), 10) || 5;
+
     const totalCount = await this.repository
-    .createQueryBuilder('recipe')
-    .where('recipe.name ILIKE :search', { search: `%${search}%`})
-    .getCount();
+      .createQueryBuilder('recipe')
+      .where('recipe.name ILIKE :search', { search: `%${search}%` })
+      .getCount();
 
     const results = await this.repository.createQueryBuilder('recipe')
-    .where('recipe.name ILIKE :search', { search: `%${search}%`})
-    .offset(page * limit)
-    .limit(limit)
-    .getMany();
+      .where('recipe.name ILIKE :search', { search: `%${search}%` })
+      .offset(page * limit)
+      .limit(limit)
+      .getMany();
 
     const totalPages = Math.ceil(totalCount / limit);
 
-    return { results, totalPages }
+    return { results, totalPages };
   }
 
   async save(recipe: IRecipe) {
