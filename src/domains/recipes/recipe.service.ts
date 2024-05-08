@@ -15,6 +15,11 @@ export interface RecipeServiceResult {
 
 export interface IRecipeService {
   search(req: Request): Promise<RecipeServiceResult>;
+  searchById(id: number): Promise<{
+    recipe: Recipe,
+    isOwner: boolean,
+  }
+  >;
 }
 export class RecipeService implements IRecipeService {
   constructor(
@@ -59,6 +64,12 @@ export class RecipeService implements IRecipeService {
       totalPages: recipes.totalPages,
     };
 
+    return result;
+  }
+
+  async searchById(id: number) {
+    const recipe = await this.recipeRepository.getRecipeById(id);
+    const result = { recipe, isOwner: false };
     return result;
   }
 }

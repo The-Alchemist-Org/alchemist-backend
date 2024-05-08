@@ -36,7 +36,6 @@ export const recipesRoutes = () => {
    *        $ref: '#/components/responses/InternalError'
    *
    */
-
   router.get(
     '/',
     async (req: Request, res: Response) => {
@@ -49,5 +48,16 @@ export const recipesRoutes = () => {
     },
   );
 
+  router.get(
+    '/:id',
+    async (req: Request, res: Response) => {
+      try {
+        const recipe = await recipeService.searchById(parseInt(req.params.id, 10));
+        return res.status(200).send(recipe);
+      } catch (e) {
+        return handleError(e, res);
+      }
+    },
+  );
   return router;
 };
