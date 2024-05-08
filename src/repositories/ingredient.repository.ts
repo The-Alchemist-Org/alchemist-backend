@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 export interface IIngredientRepository {
   getIngredientById: (ingredientId: number) => Promise<IIngredient | null>,
+  getAllIngredients: () => Promise<IIngredient[] | null>,
 }
 
 export class IngredientRepository implements IIngredientRepository {
@@ -16,5 +17,9 @@ export class IngredientRepository implements IIngredientRepository {
         id: ingredientId,
       },
     });
+  }
+
+  async getAllIngredients() {
+    return this.repository.find();
   }
 }
