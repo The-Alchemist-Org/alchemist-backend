@@ -1,4 +1,4 @@
-import { IRecipeToIngredient } from "@root/entities";
+import { IRecipeToIngredient } from '@root/entities';
 
 export type RecipesDTO = {
   id: number,
@@ -6,4 +6,3 @@ export type RecipesDTO = {
   uploadedBy: string,
   ingredients: IRecipeToIngredient[]
 };
-  

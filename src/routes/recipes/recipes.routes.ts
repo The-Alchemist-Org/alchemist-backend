@@ -48,6 +48,25 @@ export const recipesRoutes = () => {
     },
   );
 
+  /**
+   * @swagger
+   * /recipes/{id}:
+   *  get:
+   *    summary: Get a single recipe based on id
+   *    description: "Fetch a recipe from database with a parameter of id"
+   *    parameters:
+   *    - in: path
+   *      name: id
+   *      description: Id of recipe
+   *      required: true
+   *    responses:
+   *      200:
+   *        $ref: '#/components/responses/RecipeReponse'
+   *      500:
+   *        $ref: '#/components/responses/InternalError'
+   *
+   */
+
   router.get(
     '/:id',
     async (req: Request, res: Response) => {
