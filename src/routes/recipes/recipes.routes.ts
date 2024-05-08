@@ -17,6 +17,18 @@ export const recipesRoutes = () => {
    *      name: search
    *      description: The name of the recipe
    *      required: true
+   *    - in: query
+   *      name: page
+   *      description: The current page
+   *      required: false
+   *    - in: query
+   *      name: limit
+   *      description: Limit to amount of entries to fetch
+   *      required: false
+   *    - in: query
+   *      name: filter
+   *      description: Ids of ingredients to filter
+   *      required: false
    *    responses:
    *      200:
    *        $ref: '#/components/responses/RecipesDTO'
@@ -29,12 +41,7 @@ export const recipesRoutes = () => {
     '/',
     async (req: Request, res: Response) => {
       try {
-        /**
-         * TODO: 
-         * Swagger docs
-         */
-        const { search } = req.query;
-        const recipes = await recipeService.search(search.toString());
+        const recipes = await recipeService.search(req);
         return res.status(200).send(recipes);
       } catch (e) {
         return handleError(e, res);
