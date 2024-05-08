@@ -26,21 +26,36 @@ export class RecipeService implements IRecipeService {
   async search(req: Request): Promise<RecipeServiceResult> {
     const recipes = await this.recipeRepository.getRecipeBySearch(req);
 
+    const filterParams = req.query.filter;
+
+    let filterIds: number[] = [];
+    if (filterParams) {
+      filterIds = filterParams.toString().split(' ').map((id: string) => parseInt(id, 10));
+    }
+
     if (recipes == null) {
       throw new StatusError(404, 'Nothing in recipes');
     }
 
-    const recipeDTOs: RecipesDTO[] = await Promise.all(recipes.results
+    let recipeDTOs: RecipesDTO[] = await Promise.all(recipes.results
       .map(async (recipe: Recipe) => {
         const ingredients: IRecipeToIngredient[] = await this.recipeToIngredientRepository
           .getIngredientsById(recipe.id);
         return toRecipesDTO(recipe.id, recipe.name, recipe.uploadedBy, ingredients);
       }));
 
+    recipeDTOs = recipeDTOs.filter((recipe) => {
+      const ids = recipe.ingredients.map((ingredient) => ingredient.id);
+      if (filterIds.every((id) => ids.includes(id))) {
+        return true;
+      }
+      return false;
+    });
+
     const result: RecipeServiceResult = {
       results: recipeDTOs,
-      page: parseInt(req.query.page?.toString(), 10),
-      pageSize: parseInt(req.query.limit?.toString(), 10),
+      page: parseInt(req.query.page?.toString(), 10) || 1,
+      pageSize: parseInt(req.query.limit?.toString(), 10) || 5,
       totalPages: recipes.totalPages,
     };
 
