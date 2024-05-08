@@ -75,6 +75,22 @@ components:
           format: date-time
           required: true
     IRecipeResponse:
+      type: object
+      properties:
+        recipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recipe'
+        page:
+          type: integer
+          description: Current page
+        pageSize:
+          type: integer
+          description: Amount of entries in a single page
+        totalPages:
+          type: integer
+          description: Total amount of pages
+    Recipe:
         type: object
         properties:
           id:

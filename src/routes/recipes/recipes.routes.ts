@@ -17,6 +17,18 @@ export const recipesRoutes = () => {
    *      name: search
    *      description: The name of the recipe
    *      required: true
+   *    - in: query
+   *      name: page
+   *      description: The current page
+   *      required: false
+   *    - in: query
+   *      name: limit
+   *      description: Limit to amount of entries to fetch
+   *      required: false
+   *    - in: query
+   *      name: filter
+   *      description: Ids of ingredients to filter
+   *      required: false
    *    responses:
    *      200:
    *        $ref: '#/components/responses/RecipesDTO'
