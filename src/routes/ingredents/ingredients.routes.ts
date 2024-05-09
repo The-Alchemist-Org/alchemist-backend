@@ -13,9 +13,11 @@ export const ingredientsRoutes = () => {
    *  post:
    *    summary: get ingredients present in the machine
    *    description: "get all ingredients present in the mixer with id :mixerId"
+   *    tags:
+   *       - Ingredients
    *    responses:
    *      200:
-   *        $ref: '#/components/responses/RecipesDTO'
+   *        $ref: '#/components/responses/IngredientsDTO'
    *      400:
    *        $ref: '#/components/responses/BadRequestError'
    */
@@ -25,7 +27,34 @@ export const ingredientsRoutes = () => {
     async (req: Request, res: Response) => {
       try {
         const mixerId = parseInt(req.params.mixerId, 10);
-        const response = await ingredientsService.present(mixerId);
+        const response = await ingredientsService.fetchPresentIngredients(mixerId);
+        return res.status(200).send(response);
+      } catch (e) {
+        return handleError(e, res);
+      }
+    },
+  );
+
+  /**
+   * @swagger
+   * /ingredients:
+   *  get:
+   *    summary: get all ingredients
+   *    description: "get all ingredients present in the database"
+   *    tags:
+   *       - Ingredients
+   *    responses:
+   *      200:
+   *        $ref: '#/components/responses/IngredientsDTO'
+   *      400:
+   *        $ref: '#/components/responses/BadRequestError'
+   */
+  router.get(
+    '/',
+    isAuth,
+    async (req: Request, res: Response) => {
+      try {
+        const response = await ingredientsService.fetchAllIngredients();
         return res.status(200).send(response);
       } catch (e) {
         return handleError(e, res);
