@@ -69,28 +69,26 @@ export class RecipeService implements IRecipeService {
     const user = this.authRepository.findById(userId);
 
     if (!user) {
-      throw new StatusError(409, 'User does not exist');
+      throw new StatusError(404, 'User does not exist');
     }
 
-    const rec = new Recipe();
+    const newRecipe = new Recipe();
 
-    rec.name = body.name;
-    rec.uploadedBy = userId;
+    newRecipe.name = body.name;
+    newRecipe.uploadedBy = userId;
 
-    const recipe = await this.recipeRepository.save(rec);
+    newRecipe.ingredients = await Promise.all(body.ingredients.map((ingredient) => {
+      const recipeToIngredientMap = new RecipeToIngredient();
 
-    rec.ingredients = await Promise.all(body.ingredients.map((ingredient) => {
-      const recti = new RecipeToIngredient();
+      recipeToIngredientMap.ingredientId = ingredient.id;
+      recipeToIngredientMap.recipeId = newRecipe.id;
+      recipeToIngredientMap.quantity = ingredient.quantity;
 
-      recti.ingredientId = ingredient.id;
-      recti.recipeId = recipe.id;
-      recti.quantity = ingredient.quantity;
+      this.recipeToIngredientRepository.saveToDatabase(recipeToIngredientMap);
 
-      this.recipeToIngredientRepository.saveToDatabase(recti);
-
-      return recti;
+      return recipeToIngredientMap;
     }));
 
-    return recipe;
+    return newRecipe;
   }
 }

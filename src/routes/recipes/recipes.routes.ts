@@ -102,8 +102,8 @@ export const recipesRoutes = () => {
    *        $ref: '#/components/responses/RecipeReponse'
    *      400:
    *        $ref: '#/components/responses/BadRequestError'
-   *      409:
-   *        $ref: '#/components/responses/UnauthorizedError'
+   *      404:
+   *        $ref: '#/components/responses/NotFoundError'
    *
    */
 
