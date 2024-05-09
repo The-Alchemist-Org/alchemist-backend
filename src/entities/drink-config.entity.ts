@@ -1,5 +1,5 @@
 import {
-  Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn,
+  Entity, Column, PrimaryColumn, OneToOne, JoinColumn,
 } from 'typeorm';
 import { Ingredient } from './ingredient.entity';
 
@@ -11,7 +11,7 @@ export interface IDrinkConfig {
 
 @Entity('drink_config')
 export class DrinkConfig implements IDrinkConfig {
-  @PrimaryGeneratedColumn({ name: 'id' })
+  @PrimaryColumn({ name: 'id' })
     id: number;
 
   @OneToOne(() => Ingredient)

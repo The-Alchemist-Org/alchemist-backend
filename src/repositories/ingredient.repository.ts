@@ -3,7 +3,7 @@ import { buildRepository } from '@root/services/database';
 import { Repository } from 'typeorm';
 
 export interface IIngredientRepository {
-  getIngredientById: (ingredientId: number) => Promise<IIngredient | null>;
+  getIngredientById: (ingredientId: number) => Promise<IIngredient | null>,
 }
 
 export class IngredientRepository implements IIngredientRepository {
