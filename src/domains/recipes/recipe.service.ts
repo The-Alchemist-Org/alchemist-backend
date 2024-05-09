@@ -14,6 +14,7 @@ export interface IRecipeService {
   searchById(id: number): Promise<Recipe>;
   addRecipe(body: RecipeBody, userId: number): Promise<Recipe>;
   deleteRecipe(recipeId: number, userId: number): Promise<DeleteResult>;
+  updateRecipe(id: number, body: RecipeBody, userId: number): Promise<Recipe>;
 }
 export class RecipeService implements IRecipeService {
   constructor(
@@ -79,6 +80,8 @@ export class RecipeService implements IRecipeService {
     newRecipe.name = body.name;
     newRecipe.uploadedBy = userId;
 
+    const result = await this.recipeRepository.save(newRecipe);
+
     newRecipe.ingredients = await Promise.all(body.ingredients.map((ingredient) => {
       const recipeToIngredientMap = new RecipeToIngredient();
 
@@ -91,7 +94,7 @@ export class RecipeService implements IRecipeService {
       return recipeToIngredientMap;
     }));
 
-    return newRecipe;
+    return result;
   }
 
   async deleteRecipe(recipeId: number, userId: number) {
@@ -104,5 +107,36 @@ export class RecipeService implements IRecipeService {
     await this.recipeToIngredientRepository.delete(recipe.id);
 
     return this.recipeRepository.delete(recipe.id);
+  }
+
+  async updateRecipe(id: number, body: RecipeBody, userId: number) {
+    const recipe = await this.recipeRepository.getRecipeById(id);
+
+    if (recipe.uploadedBy !== userId) {
+      throw new StatusError(403, 'Not the owner');
+    }
+
+    await this.recipeToIngredientRepository.delete(recipe.id);
+
+    const newRecipe = recipe;
+
+    newRecipe.name = body.name;
+    newRecipe.uploadedBy = userId;
+
+    const result = await this.recipeRepository.save(newRecipe);
+
+    newRecipe.ingredients = await Promise.all(body.ingredients.map((ingredient) => {
+      const recipeToIngredientMap = new RecipeToIngredient();
+
+      recipeToIngredientMap.ingredientId = ingredient.id;
+      recipeToIngredientMap.recipeId = newRecipe.id;
+      recipeToIngredientMap.quantity = ingredient.quantity;
+
+      this.recipeToIngredientRepository.save(recipeToIngredientMap);
+
+      return recipeToIngredientMap;
+    }));
+
+    return result;
   }
 }
