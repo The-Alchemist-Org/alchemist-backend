@@ -1,7 +1,7 @@
 import { IRecipe, Recipe } from '@root/entities';
 import { buildRepository } from '@root/services/database';
 import { Request } from 'express';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 export interface RecipeSearchResult {
   results: IRecipe[],
@@ -12,6 +12,7 @@ export interface IRecipeRepository {
   getRecipeById: (recipeId: number) => Promise<IRecipe | null>;
   getRecipeBySearch: (req: Request) => Promise<RecipeSearchResult | null>;
   save: (queue: IRecipe) => Promise<Recipe>;
+  delete: (recipeId: number) => Promise<DeleteResult>;
 }
 
 export class RecipeRepository implements IRecipeRepository {
@@ -51,5 +52,12 @@ export class RecipeRepository implements IRecipeRepository {
 
   async save(recipe: IRecipe) {
     return this.repository.save(recipe);
+  }
+
+  async delete(recipeId: number) {
+    return this.repository.createQueryBuilder('recipes')
+      .delete()
+      .where('recipes.id = :id', { id: recipeId })
+      .execute();
   }
 }

@@ -98,7 +98,7 @@ export const recipesRoutes = () => {
    *      content:
    *        $ref: '#/components/requestBodies/RecipeBody'
    *    responses:
-   *      200:
+   *      201:
    *        $ref: '#/components/responses/RecipeReponse'
    *      400:
    *        $ref: '#/components/responses/BadRequestError'
@@ -112,7 +112,40 @@ export const recipesRoutes = () => {
     async (req: Request<null, null, RecipeBody> & AuthRequest, res: Response) => {
       try {
         const recipe = await recipeService.addRecipe(req.body, req.auth.id);
-        return res.status(200).send(recipe);
+        return res.status(201).send(recipe);
+      } catch (e) {
+        return handleError(e, res);
+      }
+    },
+  );
+
+  /**
+   * @swagger
+   * /recipes/{id}:
+   *  delete:
+   *    tags:
+   *      - Recipe
+   *    summary: Delete a single recipe based on id
+   *    description: "Fetch a recipe from database with a parameter of id."
+   *    parameters:
+   *    - in: path
+   *      name: id
+   *      description: Id of recipe
+   *      required: true
+   *    responses:
+   *      204:
+   *        description: OK No Content
+   *      403:
+   *        $ref: '#/components/responses/ForbiddenError'
+   *
+   */
+
+  router.delete(
+    '/:id',
+    async (req: Request & AuthRequest, res: Response) => {
+      try {
+        const result = await recipeService.deleteRecipe(parseInt(req.params.id, 10), req.auth.id);
+        return res.status(204).send(result);
       } catch (e) {
         return handleError(e, res);
       }

@@ -5,6 +5,7 @@ import { IRecipeToIngredientRepository, RecipeToIngredientRepository } from '@ro
 import { Request } from 'express';
 import { RecipeBody } from '@root/routes/recipes/types';
 import { UserRepository } from '@root/repositories/user.repository';
+import { DeleteResult } from 'typeorm';
 import { toRecipesDTO } from './recipes.dto';
 import { RecipeServiceResult, RecipesDTO } from './types';
 
@@ -12,6 +13,7 @@ export interface IRecipeService {
   search(req: Request): Promise<RecipeServiceResult>;
   searchById(id: number): Promise<Recipe>;
   addRecipe(body: RecipeBody, userId: number): Promise<Recipe>;
+  deleteRecipe(recipeId: number, userId: number): Promise<DeleteResult>;
 }
 export class RecipeService implements IRecipeService {
   constructor(
@@ -90,5 +92,16 @@ export class RecipeService implements IRecipeService {
     }));
 
     return newRecipe;
+  }
+
+  async deleteRecipe(recipeId: number, userId: number) {
+    const recipe = await this.recipeRepository.getRecipeById(recipeId);
+    await this.recipeToIngredientRepository.deleteFromDatabase(recipe.id);
+
+    if (recipe.uploadedBy !== userId) {
+      throw new StatusError(403, 'Not the owner');
+    }
+
+    return this.recipeRepository.delete(recipe.id);
   }
 }
