@@ -1,27 +1,24 @@
 import StatusError from '@root/utils/statusError';
 import { IRecipeRepository, RecipeRepository } from '@root/repositories/recipe.repository';
-import { IRecipeToIngredient, Recipe } from '@root/entities';
+import { IRecipeToIngredient, Recipe, RecipeToIngredient } from '@root/entities';
 import { IRecipeToIngredientRepository, RecipeToIngredientRepository } from '@root/repositories/recipe_to_ingredient.repository';
 import { Request } from 'express';
+import { RecipeBody } from '@root/routes/recipes/types';
+import { UserRepository } from '@root/repositories/user.repository';
 import { toRecipesDTO } from './recipes.dto';
-import { RecipesDTO } from './types';
-
-export interface RecipeServiceResult {
-  results: RecipesDTO[],
-  page: number,
-  pageSize: number,
-  totalPages: number
-}
+import { RecipeServiceResult, RecipesDTO } from './types';
 
 export interface IRecipeService {
   search(req: Request): Promise<RecipeServiceResult>;
   searchById(id: number): Promise<Recipe>;
+  addRecipe(body: RecipeBody): Promise<Recipe>;
 }
 export class RecipeService implements IRecipeService {
   constructor(
     private recipeRepository: IRecipeRepository = new RecipeRepository(),
     private recipeToIngredientRepository: IRecipeToIngredientRepository
     = new RecipeToIngredientRepository(),
+    private authRepository = new UserRepository(),
   ) { }
 
   async search(req: Request): Promise<RecipeServiceResult> {
@@ -65,6 +62,39 @@ export class RecipeService implements IRecipeService {
 
   async searchById(id: number) {
     const recipe = await this.recipeRepository.getRecipeById(id);
+    return recipe;
+  }
+
+  async addRecipe(body: RecipeBody) {
+    const user = this.authRepository.findById(body.uploadedBy);
+
+    if (!user) {
+      throw new StatusError(409, 'User does not exist');
+    }
+
+    if (body.name == null || body.uploadedBy == null || body.ingredients == null) {
+      throw new StatusError(400, 'Bad request');
+    }
+
+    const rec = new Recipe();
+
+    rec.name = body.name;
+    rec.uploadedBy = body.uploadedBy;
+
+    const recipe = await this.recipeRepository.save(rec);
+
+    rec.ingredients = await Promise.all(body.ingredients.map((ingredient) => {
+      const recti = new RecipeToIngredient();
+
+      recti.ingredientId = ingredient.id;
+      recti.recipeId = recipe.id;
+      recti.quantity = ingredient.quantity;
+
+      this.recipeToIngredientRepository.saveToDatabase(recti);
+
+      return recti;
+    }));
+
     return recipe;
   }
 }

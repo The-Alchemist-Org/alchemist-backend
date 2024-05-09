@@ -6,7 +6,7 @@ import { RecipeToIngredient } from './recipe-to-ingredient.entity';
 export interface IRecipe {
   id: number;
   name: string;
-  uploadedBy: string;
+  uploadedBy: number;
   ingredients: RecipeToIngredient[]
 }
 
@@ -19,7 +19,7 @@ export class Recipe implements IRecipe {
     name: string;
 
   @Column({ name: 'uploaded_by' })
-    uploadedBy: string;
+    uploadedBy: number;
 
   @OneToMany(() => RecipeToIngredient, (recipeToIngredient) => recipeToIngredient.recipe)
   @JoinTable({ name: 'ingredient_id' })
