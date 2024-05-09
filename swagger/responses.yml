@@ -108,6 +108,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/IRecipeResponse"
+    DrinkConfigDTO:
+      description: Response with drink config 
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/IDrinkConfigResponse"
     QueueId:
       description: the id of the newly created queue entry.
       content:

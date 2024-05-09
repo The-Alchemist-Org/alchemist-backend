@@ -4,29 +4,34 @@ import { Repository } from 'typeorm';
 
 export interface IDrinkConfigRepository {
   getMachineConfig: (machineId: number) => Promise<IDrinkConfig[]>;
-  getDrinkConfigById: (drinkConfigId: number) => Promise<IDrinkConfig>;
+  getDrinkConfigByMachineAndHopper: (machineId: number, hopperNum: number) => Promise<IDrinkConfig>;
   save: (drinkConfig: IDrinkConfig) => Promise<IDrinkConfig>
+  saveMany: (drinkConfig: IDrinkConfig[]) => Promise<IDrinkConfig[]>
 }
 
 export class DrinkConfigRepository implements IDrinkConfigRepository {
   constructor(private repository: Repository<IDrinkConfig> =
   buildRepository<IDrinkConfig>(DrinkConfig)) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getMachineConfig(machineId: number) {
-    // TODO machine ID not yet implemented in this table
     return this.repository.find({
+      where: {
+        serialNumber: machineId,
+      },
       relations: {
         ingredient: true,
+      },
+      order: {
+        hopperNum: 'ASC',
       },
     });
   }
 
-  getDrinkConfigById(drinkConfigId: number) {
-    // TODO machine ID not yet implemented in this table
+  getDrinkConfigByMachineAndHopper(machineId: number, hopperNum: number) {
     return this.repository.findOne({
       where: {
-        id: drinkConfigId,
+        serialNumber: machineId,
+        hopperNum,
       },
       relations: {
         ingredient: true,
@@ -36,5 +41,9 @@ export class DrinkConfigRepository implements IDrinkConfigRepository {
 
   save(drinkConfig: IDrinkConfig) {
     return this.repository.save(drinkConfig);
+  }
+
+  saveMany(drinkConfigs: IDrinkConfig[]) {
+    return this.repository.save(drinkConfigs);
   }
 }

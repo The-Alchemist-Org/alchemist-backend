@@ -108,18 +108,36 @@ components:
             items:
               $ref: '#/components/schemas/Ingredient'
     Ingredient:
-        type: object
-        properties:
-          id:
-            type: integer
-            description: The unique identifier for the ingredient
-          recipeId:
-            type: integer
-            description: The ID of the recipe this ingredient belongs to
-          ingredientId:
-            type: integer
-            description: The ID of the ingredient
-          quantity:
-            type: number
-            nullable: true
-            description: The quantity of the ingredient required for the recipe
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the ingredient
+        recipeId:
+          type: integer
+          description: The ID of the recipe this ingredient belongs to
+        ingredientId:
+          type: integer
+          description: The ID of the ingredient
+        quantity:
+          type: number
+          nullable: true
+          description: The quantity of the ingredient required for the recipe
+    IDrinkConfigResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/DrinkConfig'
+    DrinkConfig:
+      type: object
+      properties:
+        ingredient:
+          type: integer
+        amountLeft:
+          type: integer
+        machineId:
+          type: integer
+        hopperNum:
+          type: integer
+          
+    
+      
