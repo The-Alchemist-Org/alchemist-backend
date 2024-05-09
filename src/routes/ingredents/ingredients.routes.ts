@@ -37,8 +37,8 @@ export const ingredientsRoutes = () => {
 
   /**
    * @swagger
-   * /ingredients/all:
-   *  post:
+   * /ingredients:
+   *  get:
    *    summary: get all ingredients
    *    description: "get all ingredients present in the database"
    *    tags:
@@ -50,7 +50,7 @@ export const ingredientsRoutes = () => {
    *        $ref: '#/components/responses/BadRequestError'
    */
   router.get(
-    '/all',
+    '/',
     isAuth,
     async (req: Request, res: Response) => {
       try {
