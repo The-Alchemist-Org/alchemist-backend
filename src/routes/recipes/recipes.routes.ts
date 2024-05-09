@@ -106,7 +106,6 @@ export const recipesRoutes = () => {
    *        $ref: '#/components/responses/NotFoundError'
    *
    */
-
   router.post(
     '/',
     recipeValidation,
