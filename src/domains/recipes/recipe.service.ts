@@ -69,11 +69,7 @@ export class RecipeService implements IRecipeService {
     const user = this.authRepository.findById(body.uploadedBy);
 
     if (!user) {
-      throw new StatusError(409, 'User does not exist');
-    }
-
-    if (body.name == null || body.uploadedBy == null || body.ingredients == null) {
-      throw new StatusError(400, 'Bad request');
+      throw new StatusError(404, 'User does not exist');
     }
 
     const rec = new Recipe();
