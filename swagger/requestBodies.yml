@@ -89,12 +89,6 @@ components:
               description: The name of Recipe
               example: Mojito
               format: string
-            uploadedBy:
-              type: number
-              required: true
-              description: The id of user
-              example: 1
-              format: number
             ingredients:
               type: array
               items: 
