@@ -15,6 +15,7 @@ export interface RecipeServiceResult {
 
 export interface IRecipeService {
   search(req: Request): Promise<RecipeServiceResult>;
+  searchById(id: number): Promise<Recipe>;
 }
 export class RecipeService implements IRecipeService {
   constructor(
@@ -60,5 +61,10 @@ export class RecipeService implements IRecipeService {
     };
 
     return result;
+  }
+
+  async searchById(id: number) {
+    const recipe = await this.recipeRepository.getRecipeById(id);
+    return recipe;
   }
 }

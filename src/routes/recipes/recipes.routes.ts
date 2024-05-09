@@ -36,7 +36,6 @@ export const recipesRoutes = () => {
    *        $ref: '#/components/responses/InternalError'
    *
    */
-
   router.get(
     '/',
     async (req: Request, res: Response) => {
@@ -49,5 +48,35 @@ export const recipesRoutes = () => {
     },
   );
 
+  /**
+   * @swagger
+   * /recipes/{id}:
+   *  get:
+   *    summary: Get a single recipe based on id
+   *    description: "Fetch a recipe from database with a parameter of id"
+   *    parameters:
+   *    - in: path
+   *      name: id
+   *      description: Id of recipe
+   *      required: true
+   *    responses:
+   *      200:
+   *        $ref: '#/components/responses/RecipeReponse'
+   *      500:
+   *        $ref: '#/components/responses/InternalError'
+   *
+   */
+
+  router.get(
+    '/:id',
+    async (req: Request, res: Response) => {
+      try {
+        const recipe = await recipeService.searchById(parseInt(req.params.id, 10));
+        return res.status(200).send(recipe);
+      } catch (e) {
+        return handleError(e, res);
+      }
+    },
+  );
   return router;
 };

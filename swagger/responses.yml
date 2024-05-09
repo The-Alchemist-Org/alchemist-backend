@@ -119,6 +119,12 @@ components:
                 type: number
                 description: "the Id of the newly created queue entry"
                 example: 1234
+    RecipeReponse:
+      description: Response with a single recipe
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Recipe"
             
  
  
