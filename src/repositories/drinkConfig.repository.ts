@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 
 export interface IDrinkConfigRepository {
   getMachineConfig: (machineId: number) => Promise<IDrinkConfig[]>;
+  getDrinkConfigById: (drinkConfigId: number) => Promise<IDrinkConfig>;
+  save: (drinkConfig: IDrinkConfig) => Promise<IDrinkConfig>
 }
 
 export class DrinkConfigRepository implements IDrinkConfigRepository {
@@ -18,5 +20,21 @@ export class DrinkConfigRepository implements IDrinkConfigRepository {
         ingredient: true,
       },
     });
+  }
+
+  getDrinkConfigById(drinkConfigId: number) {
+    // TODO machine ID not yet implemented in this table
+    return this.repository.findOne({
+      where: {
+        id: drinkConfigId,
+      },
+      relations: {
+        ingredient: true,
+      },
+    });
+  }
+
+  save(drinkConfig: IDrinkConfig) {
+    return this.repository.save(drinkConfig);
   }
 }

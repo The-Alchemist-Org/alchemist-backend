@@ -78,3 +78,32 @@ components:
               description: the Id of the machine
               example: 123456
               format: number
+    PutBody:
+      application/json:
+        schema:
+          type: object
+          properties:
+            machineId:
+              type: number
+              required: true
+              description: the id of the machine
+              example: 42
+              format: number
+            dispenserId:
+              type: number
+              required: true
+              description: the Id of the machine
+              example: 123456
+              format: number
+            ingredentId:
+              type: number
+              required: true
+              description: ingredent id
+              example: 123456
+              format: number
+            amountLeft:
+              type: number
+              required: true
+              description: amount in machine
+              example: 123456
+              format: number
