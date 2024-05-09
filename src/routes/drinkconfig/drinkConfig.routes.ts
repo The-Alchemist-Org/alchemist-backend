@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { handleError } from '@root/utils/handleError';
 import { DrinkConfigService, IDrinkConfigService } from '@root/domains/drinkconfig';
 import { isAuth } from '@root/middleware/isAuth';
+import { AuthRequest } from '@root/types/request';
 import { PutBody } from './types';
 import { putValidation } from './validation';
 
@@ -21,14 +22,16 @@ export const drinkConfigRoutes = () => {
    *    responses:
    *      200:
    *        description: "success"
+   *      400:
+   *        $ref: '#/components/responses/BadRequestError'
    *      422:
    *        $ref: '#/components/responses/UnprocessableEntityError'
    */
   router.put(
     '/',
-    // isAuth,
+    isAuth,
     putValidation,
-    async (req: Request<null, null, PutBody>, res: Response) => {
+    async (req: Request<null, null, PutBody> & AuthRequest, res: Response) => {
       try {
         const response = await drinkConfigService.put(req.body);
         return res.status(200).send(response);
