@@ -86,7 +86,7 @@ export class RecipeService implements IRecipeService {
       recipeToIngredientMap.recipeId = newRecipe.id;
       recipeToIngredientMap.quantity = ingredient.quantity;
 
-      this.recipeToIngredientRepository.saveToDatabase(recipeToIngredientMap);
+      this.recipeToIngredientRepository.save(recipeToIngredientMap);
 
       return recipeToIngredientMap;
     }));
@@ -96,11 +96,12 @@ export class RecipeService implements IRecipeService {
 
   async deleteRecipe(recipeId: number, userId: number) {
     const recipe = await this.recipeRepository.getRecipeById(recipeId);
-    await this.recipeToIngredientRepository.delete(recipe.id);
 
     if (recipe.uploadedBy !== userId) {
       throw new StatusError(403, 'Not the owner');
     }
+
+    await this.recipeToIngredientRepository.delete(recipe.id);
 
     return this.recipeRepository.delete(recipe.id);
   }

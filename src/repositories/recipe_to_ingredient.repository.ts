@@ -4,8 +4,8 @@ import { DeleteResult, Repository } from 'typeorm';
 
 export interface IRecipeToIngredientRepository {
   getIngredientsById: (recipeId: number) => Promise<IRecipeToIngredient[] | null>;
-  saveToDatabase: (ingredient: RecipeToIngredient) => Promise<IRecipeToIngredient>;
-  deleteFromDatabase: (id: number) => Promise<DeleteResult>;
+  save: (ingredient: RecipeToIngredient) => Promise<IRecipeToIngredient>;
+  delete: (id: number) => Promise<DeleteResult>;
 }
 
 export class RecipeToIngredientRepository implements IRecipeToIngredientRepository {
@@ -18,11 +18,11 @@ export class RecipeToIngredientRepository implements IRecipeToIngredientReposito
       .getMany();
   }
 
-  async saveToDatabase(ingredient: RecipeToIngredient) {
+  async save(ingredient: RecipeToIngredient) {
     return this.repository.save(ingredient);
   }
 
-  async deleteFromDatabase(id: number) {
+  async delete(id: number) {
     return this.repository.createQueryBuilder('recipe_to_ingredient')
       .delete()
       .from(RecipeToIngredient)
