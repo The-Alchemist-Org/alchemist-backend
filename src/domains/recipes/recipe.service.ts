@@ -11,7 +11,7 @@ import { RecipeServiceResult, RecipesDTO } from './types';
 export interface IRecipeService {
   search(req: Request): Promise<RecipeServiceResult>;
   searchById(id: number): Promise<Recipe>;
-  addRecipe(body: RecipeBody): Promise<Recipe>;
+  addRecipe(body: RecipeBody, userId: number): Promise<Recipe>;
 }
 export class RecipeService implements IRecipeService {
   constructor(
@@ -65,21 +65,17 @@ export class RecipeService implements IRecipeService {
     return recipe;
   }
 
-  async addRecipe(body: RecipeBody) {
-    const user = this.authRepository.findById(body.uploadedBy);
+  async addRecipe(body: RecipeBody, userId: number) {
+    const user = this.authRepository.findById(userId);
 
     if (!user) {
       throw new StatusError(409, 'User does not exist');
     }
 
-    if (body.name == null || body.uploadedBy == null || body.ingredients == null) {
-      throw new StatusError(400, 'Bad request');
-    }
-
     const rec = new Recipe();
 
     rec.name = body.name;
-    rec.uploadedBy = body.uploadedBy;
+    rec.uploadedBy = userId;
 
     const recipe = await this.recipeRepository.save(rec);
 

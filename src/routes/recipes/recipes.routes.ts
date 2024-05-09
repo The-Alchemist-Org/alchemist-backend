@@ -1,7 +1,9 @@
 import { Request, Response, Router } from 'express';
 import { handleError } from '@root/utils/handleError';
 import { IRecipeService, RecipeService } from '@root/domains/recipes';
+import { AuthRequest } from '@root/types/request';
 import { RecipeBody } from './types';
+import { recipeValidation } from './validation/recipes.validation';
 
 export const recipesRoutes = () => {
   const router = Router();
@@ -107,9 +109,10 @@ export const recipesRoutes = () => {
 
   router.post(
     '/',
-    async (req: Request<null, null, RecipeBody>, res: Response) => {
+    recipeValidation,
+    async (req: Request<null, null, RecipeBody> & AuthRequest, res: Response) => {
       try {
-        const recipe = await recipeService.addRecipe(req.body);
+        const recipe = await recipeService.addRecipe(req.body, req.auth.id);
         return res.status(200).send(recipe);
       } catch (e) {
         return handleError(e, res);
