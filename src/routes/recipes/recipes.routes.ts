@@ -139,7 +139,6 @@ export const recipesRoutes = () => {
    *        $ref: '#/components/responses/ForbiddenError'
    *
    */
-
   router.delete(
     '/:id',
     async (req: Request & AuthRequest, res: Response) => {
