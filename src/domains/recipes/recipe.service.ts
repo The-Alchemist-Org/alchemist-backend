@@ -96,7 +96,7 @@ export class RecipeService implements IRecipeService {
 
   async deleteRecipe(recipeId: number, userId: number) {
     const recipe = await this.recipeRepository.getRecipeById(recipeId);
-    await this.recipeToIngredientRepository.deleteFromDatabase(recipe.id);
+    await this.recipeToIngredientRepository.delete(recipe.id);
 
     if (recipe.uploadedBy !== userId) {
       throw new StatusError(403, 'Not the owner');
