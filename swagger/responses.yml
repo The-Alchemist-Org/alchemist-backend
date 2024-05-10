@@ -90,6 +90,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ILoginResponse"
+    UserDTO:
+      description: Response with user data.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/IUserResponse"
     MixDTO:
       description: Response with mix data for the machine
       content:
@@ -131,6 +137,3 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Recipe"
-            
- 
- 

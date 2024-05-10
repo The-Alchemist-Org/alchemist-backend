@@ -25,6 +25,7 @@ export interface IUser {
   isPasswordMatch: (password: string) => Promise<boolean>;
   setPassword: (password: string) => Promise<void>;
   buildToken: () => Promise<string>;
+  assignProperties(user: Omit<Partial<IUser>, 'password'>): void;
 }
 
 @Entity('users')
