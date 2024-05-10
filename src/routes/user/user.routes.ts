@@ -22,7 +22,7 @@ export const userRoutes = () => {
    *        $ref: '#/components/requestBodies/UpdateUserBody'
    *    responses:
    *      200:
-   *        $ref: '#/components/responses/UserDTO'
+   *        $ref: '#/components/responses/AuthDTO'
    *      400:
    *        $ref: '#/components/responses/BadRequestError'
    *      404:

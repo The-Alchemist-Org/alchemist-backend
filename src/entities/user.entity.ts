@@ -83,6 +83,8 @@ export class User implements IUser {
   }
 
   public assignProperties(user: Omit<Partial<IUser>, 'password'>) {
-    Object.assign(this, user);
+    this.email = user.email || this.email;
+    this.firstName = user.firstName || this.firstName;
+    this.lastName = user.lastName || this.lastName;
   }
 }
