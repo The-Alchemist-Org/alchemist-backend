@@ -1,27 +1,27 @@
 import StatusError from '@root/utils/statusError';
 import { IRecipeRepository, RecipeRepository } from '@root/repositories/recipe.repository';
-import { IRecipeToIngredient, Recipe } from '@root/entities';
+import { IRecipeToIngredient, Recipe, RecipeToIngredient } from '@root/entities';
 import { IRecipeToIngredientRepository, RecipeToIngredientRepository } from '@root/repositories/recipe_to_ingredient.repository';
 import { Request } from 'express';
+import { RecipeBody } from '@root/routes/recipes/types';
+import { UserRepository } from '@root/repositories/user.repository';
+import { DeleteResult } from 'typeorm';
 import { toRecipesDTO } from './recipes.dto';
-import { RecipesDTO } from './types';
-
-export interface RecipeServiceResult {
-  results: RecipesDTO[],
-  page: number,
-  pageSize: number,
-  totalPages: number
-}
+import { RecipeServiceResult, RecipesDTO } from './types';
 
 export interface IRecipeService {
   search(req: Request): Promise<RecipeServiceResult>;
   searchById(id: number): Promise<Recipe>;
+  addRecipe(body: RecipeBody, userId: number): Promise<Recipe>;
+  deleteRecipe(recipeId: number, userId: number): Promise<DeleteResult>;
+  updateRecipe(id: number, body: RecipeBody, userId: number): Promise<Recipe>;
 }
 export class RecipeService implements IRecipeService {
   constructor(
     private recipeRepository: IRecipeRepository = new RecipeRepository(),
     private recipeToIngredientRepository: IRecipeToIngredientRepository
     = new RecipeToIngredientRepository(),
+    private authRepository = new UserRepository(),
   ) { }
 
   async search(req: Request): Promise<RecipeServiceResult> {
@@ -66,5 +66,77 @@ export class RecipeService implements IRecipeService {
   async searchById(id: number) {
     const recipe = await this.recipeRepository.getRecipeById(id);
     return recipe;
+  }
+
+  async addRecipe(body: RecipeBody, userId: number) {
+    const user = this.authRepository.findById(userId);
+
+    if (!user) {
+      throw new StatusError(404, 'User does not exist');
+    }
+
+    const newRecipe = new Recipe();
+
+    newRecipe.name = body.name;
+    newRecipe.uploadedBy = userId;
+
+    const result = await this.recipeRepository.save(newRecipe);
+
+    newRecipe.ingredients = await Promise.all(body.ingredients.map((ingredient) => {
+      const recipeToIngredientMap = new RecipeToIngredient();
+
+      recipeToIngredientMap.ingredientId = ingredient.id;
+      recipeToIngredientMap.recipeId = newRecipe.id;
+      recipeToIngredientMap.quantity = ingredient.quantity;
+
+      this.recipeToIngredientRepository.save(recipeToIngredientMap);
+
+      return recipeToIngredientMap;
+    }));
+
+    return result;
+  }
+
+  async deleteRecipe(recipeId: number, userId: number) {
+    const recipe = await this.recipeRepository.getRecipeById(recipeId);
+
+    if (recipe.uploadedBy !== userId) {
+      throw new StatusError(403, 'Not the owner');
+    }
+
+    await this.recipeToIngredientRepository.delete(recipe.id);
+
+    return this.recipeRepository.delete(recipe.id);
+  }
+
+  async updateRecipe(id: number, body: RecipeBody, userId: number) {
+    const recipe = await this.recipeRepository.getRecipeById(id);
+
+    if (recipe.uploadedBy !== userId) {
+      throw new StatusError(403, 'Not the owner');
+    }
+
+    await this.recipeToIngredientRepository.delete(recipe.id);
+
+    const newRecipe = recipe;
+
+    newRecipe.name = body.name;
+    newRecipe.uploadedBy = userId;
+
+    const result = await this.recipeRepository.save(newRecipe);
+
+    newRecipe.ingredients = await Promise.all(body.ingredients.map((ingredient) => {
+      const recipeToIngredientMap = new RecipeToIngredient();
+
+      recipeToIngredientMap.ingredientId = ingredient.id;
+      recipeToIngredientMap.recipeId = newRecipe.id;
+      recipeToIngredientMap.quantity = ingredient.quantity;
+
+      this.recipeToIngredientRepository.save(recipeToIngredientMap);
+
+      return recipeToIngredientMap;
+    }));
+
+    return result;
   }
 }

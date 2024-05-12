@@ -25,6 +25,7 @@ export interface IUser {
   isPasswordMatch: (password: string) => Promise<boolean>;
   setPassword: (password: string) => Promise<void>;
   buildToken: () => Promise<string>;
+  assignProperties(user: Omit<Partial<IUser>, 'password'>): void;
 }
 
 @Entity('users')
@@ -82,6 +83,8 @@ export class User implements IUser {
   }
 
   public assignProperties(user: Omit<Partial<IUser>, 'password'>) {
-    Object.assign(this, user);
+    this.email = user.email || this.email;
+    this.firstName = user.firstName || this.firstName;
+    this.lastName = user.lastName || this.lastName;
   }
 }

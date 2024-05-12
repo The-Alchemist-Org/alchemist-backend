@@ -44,6 +44,33 @@ components:
               required: true
               description: Users last name
               example: User
+    UpdateUserBody:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              required: true
+              description: Users email
+              example: new.user@email.com
+              format: email
+            password:
+              type: string
+              required: true
+              description: Users password
+              minLength: 7
+              example: Pa$sword00
+            firstName:
+              type: string
+              required: true
+              description: Users first name
+              example: New
+            lastName:
+              type: string
+              required: true
+              description: Users last name
+              example: User
     DoneBody:
       application/json:
         schema:
@@ -78,6 +105,33 @@ components:
               description: the Id of the machine
               example: 123456
               format: number
+    RecipeBody:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              required: true
+              description: The name of Recipe
+              example: Mojito
+              format: string
+            ingredients:
+              type: array
+              items:
+                type: object
+                properties:
+                  ingredientId:
+                    type: integer
+                    description: The ID of the ingredient
+                    example: 1
+                    format: number
+                  quantity:
+                    type: number
+                    nullable: true
+                    description: The quantity of the ingredient required for the recipe
+                    example: 1
+                    format: number
     DrinkConfigPutBody:
       application/json:
         schema:

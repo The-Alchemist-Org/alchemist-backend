@@ -29,6 +29,33 @@ components:
         updatedAt:
           type: string
           format: date-time
+    IUserResponse:
+      type: object
+      properties:
+        id:
+          type: number
+          required: true
+          description: User ID
+          example: 1
+        email:
+          type: string
+          required: true
+          description: User email
+          example: test@email.com
+          format: email
+        firstName:
+          type: string
+          required: true
+        lastName:
+          type: string
+          required: true
+        createdAt:
+          type: string
+          format: date-time
+          required: true
+        updatedAt:
+          type: string
+          format: date-time
     INextMixResponse:
       type: object
       properties:
@@ -38,14 +65,14 @@ components:
             type: number
           required: true
           description: list of hoppers to mix from
-          example: [1,2,4]
+          example: [1, 2, 4]
         quantities:
           type: array
           items:
             type: number
           required: true
           description: amounts to pour from hoppers
-          example: [2,2,1.5]
+          example: [2, 2, 1.5]
         queueId:
           type: number,
           required: true,
@@ -80,7 +107,7 @@ components:
         recipes:
           type: array
           items:
-            $ref: '#/components/schemas/Recipe'
+            $ref: "#/components/schemas/Recipe"
         page:
           type: integer
           description: Current page
@@ -91,22 +118,22 @@ components:
           type: integer
           description: Total amount of pages
     Recipe:
-        type: object
-        properties:
-          id:
-            type: integer
-            description: The unique identifier for the cocktail recipe
-          name:
-            type: string
-            description: The name of the cocktail
-          uploadedBy:
-            type: string
-            nullable: true
-            description: The user who uploaded the cocktail recipe
-          ingredients:
-            type: array
-            items:
-              $ref: '#/components/schemas/Ingredient'
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the cocktail recipe
+        name:
+          type: string
+          description: The name of the cocktail
+        uploadedBy:
+          type: number
+          nullable: true
+          description: The user who uploaded the cocktail recipe
+        ingredients:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ingredient"
     Ingredient:
       type: object
       properties:
@@ -126,7 +153,7 @@ components:
     IDrinkConfigResponse:
       type: array
       items:
-        $ref: '#/components/schemas/DrinkConfig'
+        $ref: "#/components/schemas/DrinkConfig"
     DrinkConfig:
       type: object
       properties:
@@ -138,6 +165,10 @@ components:
           type: integer
         hopperNum:
           type: integer
-          
-    
-      
+        name:
+          type: string
+          description: The name of the ingredient
+    IIngredientResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/Ingredient"
