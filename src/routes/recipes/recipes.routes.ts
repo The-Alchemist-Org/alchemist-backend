@@ -150,5 +150,41 @@ export const recipesRoutes = () => {
       }
     },
   );
+
+  /**
+   * @swagger
+   * /recipes/{id}:
+   *  put:
+   *    tags:
+   *      - Recipe
+   *    summary: Updates a recipe in database
+   *    description: "Try to update a recipe in database"
+   *    parameters:
+   *    - in: path
+   *      name: id
+   *      description: Id of recipe
+   *      required: true
+   *    requestBody:
+   *      content:
+   *        $ref: '#/components/requestBodies/RecipeBody'
+   *    responses:
+   *      200:
+   *        $ref: '#/components/responses/RecipeReponse'
+   *      403:
+   *        $ref: '#/components/responses/ForbiddenError'
+   */
+  router.put(
+    '/:id',
+    recipeValidation,
+    async (req: Request<{ id: string }, null, RecipeBody> & AuthRequest, res: Response) => {
+      try {
+        const recipe = await recipeService
+          .updateRecipe(parseInt(req.params.id, 10), req.body, req.auth.id);
+        return res.status(200).send(recipe);
+      } catch (e) {
+        return handleError(e, res);
+      }
+    },
+  );
   return router;
 };
