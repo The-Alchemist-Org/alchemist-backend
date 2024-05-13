@@ -1,6 +1,4 @@
-export type PutBody = {
-  machineId: number;
-  dispenserId: number;
+export type DrinkConfigBody = {
   ingredientId: number;
   amountLeft: number;
-};
+}[];

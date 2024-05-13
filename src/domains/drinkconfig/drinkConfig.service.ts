@@ -1,40 +1,42 @@
-import { IQueueRepository, QueueRepository } from '@root/repositories/queue.repository';
 import { DrinkConfigRepository, IDrinkConfigRepository } from '@root/repositories/drinkConfig.repository';
 import StatusError from '@root/utils/statusError';
-import { PutBody } from '@root/routes/drinkconfig/types';
+import { DrinkConfigBody } from '@root/routes/drinkconfig/types';
 import { IIngredientRepository, IngredientRepository } from '@root/repositories/ingredient.repository';
 import { DrinkConfig } from '@root/entities';
 import { DrinkConfigDTO } from './types';
 import { toDrinkConfigDTO } from './drinkconfig.dto';
 
 export interface IDrinkConfigService {
-  put(putBody: PutBody): Promise<DrinkConfigDTO>;
+  getDrinkConfig(machineId: number): Promise<DrinkConfigDTO[]>;
+  updataDrinkConfig(putBody: DrinkConfigBody, machineId: number): Promise<DrinkConfigDTO[]>;
 }
 export class DrinkConfigService implements IDrinkConfigService {
   constructor(
-    private queueRepository: IQueueRepository = new QueueRepository(),
     private drinkConfigRepository: IDrinkConfigRepository = new DrinkConfigRepository(),
     private ingredientRepository: IIngredientRepository = new IngredientRepository(),
   ) { }
 
-  async put(putBody: PutBody) {
-    if (putBody.dispenserId > 5 || putBody.dispenserId <= 0) {
-      throw new StatusError(422, 'invalid dispenserID');
+  async getDrinkConfig(machineId: number): Promise<DrinkConfigDTO[]> {
+    const drinkConfig = await this.drinkConfigRepository.getMachineConfig(machineId);
+    if (!drinkConfig) {
+      throw new StatusError(404, 'Drink config not found');
     }
+    return drinkConfig.map(toDrinkConfigDTO);
+  }
 
-    let dk = await this.drinkConfigRepository.getDrinkConfigById(putBody.dispenserId);
-    if (dk === null) {
-      dk = new DrinkConfig();
-      dk.id = putBody.dispenserId;
-    }
+  async updataDrinkConfig(putBody: DrinkConfigBody, machineID: number) {
+    await this.drinkConfigRepository.deleteByMachineId(machineID);
 
-    if (putBody.ingredientId != null) {
-      dk.ingredient = await this.ingredientRepository.getIngredientById(putBody.ingredientId);
-    } else {
-      dk.ingredient = null;
-    }
-    dk.amountLeft = putBody.amountLeft;
+    const drinkConfigs = await Promise.all(putBody.map(async (dC, index) => {
+      const drinkConfig = new DrinkConfig();
+      drinkConfig.serialNumber = machineID;
+      drinkConfig.hopperNum = index + 1;
+      drinkConfig.amountLeft = dC.amountLeft;
+      drinkConfig.ingredient = await this.ingredientRepository.getIngredientById(dC.ingredientId);
+      return drinkConfig;
+    }));
 
-    return toDrinkConfigDTO(await this.drinkConfigRepository.save(dk));
+    const resp = await this.drinkConfigRepository.saveMany(drinkConfigs);
+    return resp.map(toDrinkConfigDTO);
   }
 }

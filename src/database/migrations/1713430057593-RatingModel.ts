@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class RatingModel1713430057593 implements MigrationInterface {

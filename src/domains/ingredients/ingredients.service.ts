@@ -15,17 +15,17 @@ export class IngredientsService implements IIngredientsService {
 
   async fetchPresentIngredients(mixerId: number) {
     const drinkConfig = await this.drinkConfigRepository.getMachineConfig(mixerId);
-    const ingredients = drinkConfig.map<Promise<IngredientDTO>>(
+    const ingredients = drinkConfig.map(
       (drink) => toIngredientDTO(drink.ingredient),
     );
-    return Promise.all(ingredients);
+    return ingredients;
   }
 
   async fetchAllIngredients() {
     const ingredients = await this.ingredientRepository.getAllIngredients();
-    const ingredientDTOs = ingredients.map<Promise<IngredientDTO>>(
+    const ingredientDTOs = ingredients.map(
       (ingredient) => toIngredientDTO(ingredient),
     );
-    return Promise.all(ingredientDTOs);
+    return ingredientDTOs;
   }
 }

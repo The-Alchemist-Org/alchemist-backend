@@ -1,10 +1,12 @@
 import { IDrinkConfig } from '@root/entities';
 import { DrinkConfigDTO } from './types';
+import { toIngredientDTO } from '../ingredients/ingredient.dto';
 
-export const toDrinkConfigDTO = async (
+export const toDrinkConfigDTO = (
   drinkConfig: IDrinkConfig,
-): Promise<DrinkConfigDTO> => ({
-  dispenserId: drinkConfig.id,
-  ingredient: drinkConfig.ingredient ? drinkConfig.ingredient.id : null,
+): DrinkConfigDTO => ({
+  ingredient: drinkConfig.ingredient ? toIngredientDTO(drinkConfig.ingredient) : null,
   amountLeft: drinkConfig.amountLeft,
+  machineId: drinkConfig.serialNumber,
+  hopperNum: drinkConfig.hopperNum,
 });

@@ -114,6 +114,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/IRecipeResponse"
+    DrinkConfigDTO:
+      description: Response with drink config
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/IDrinkConfigResponse"
     IngredientsDTO:
       description: Response with ingredients
       content:
