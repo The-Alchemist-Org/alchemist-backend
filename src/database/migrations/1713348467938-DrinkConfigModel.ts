@@ -11,6 +11,8 @@ export class DrinkConfigModel1713348467938 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
           },
           {
             name: 'ingredient',
