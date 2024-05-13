@@ -7,6 +7,7 @@ export interface IDrinkConfigRepository {
   getDrinkConfigByMachineAndHopper: (machineId: number, hopperNum: number) => Promise<IDrinkConfig>;
   save: (drinkConfig: IDrinkConfig) => Promise<IDrinkConfig>
   saveMany: (drinkConfig: IDrinkConfig[]) => Promise<IDrinkConfig[]>
+  deleteByMachineId: (machineId: number) => Promise<any>
 }
 
 export class DrinkConfigRepository implements IDrinkConfigRepository {
@@ -45,5 +46,9 @@ export class DrinkConfigRepository implements IDrinkConfigRepository {
 
   saveMany(drinkConfigs: IDrinkConfig[]) {
     return this.repository.save(drinkConfigs);
+  }
+
+  deleteByMachineId(machineId: number) {
+    return this.repository.delete({ serialNumber: machineId });
   }
 }
