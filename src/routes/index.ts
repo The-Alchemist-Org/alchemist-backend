@@ -15,7 +15,7 @@ const registerRoutes = async (app: Application) => {
   app.use('/users', isAuth, userRoutes());
   app.use('/queue', queueRoutes());
   app.use('/ingredients', ingredientsRoutes());
-  app.use('/drinkConfig', drinkConfigRoutes());
+  app.use('/drinkConfig', isAuth, drinkConfigRoutes());
 };
 
 export default registerRoutes;

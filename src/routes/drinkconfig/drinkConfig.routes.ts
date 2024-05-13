@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { handleError } from '@root/utils/handleError';
 import { DrinkConfigService, IDrinkConfigService } from '@root/domains/drinkconfig';
-import { isAuth } from '@root/middleware/isAuth';
 import { AuthRequest } from '@root/types/request';
 import { DrinkConfigBody } from './types';
 import { drinkConfigsValidation } from './validation';
@@ -10,7 +9,6 @@ export const drinkConfigRoutes = () => {
   const router = Router();
   const drinkConfigService: IDrinkConfigService = new DrinkConfigService();
 
-  // TODO
   /**
    * @swagger
    * /drinkConfig/{machineId}:
@@ -32,18 +30,16 @@ export const drinkConfigRoutes = () => {
    */
   router.get(
     '/:machineId',
-    // isAuth,
     async (req: Request, res: Response) => {
       try {
-        const recipes = await drinkConfigService.getDrinkConfig(parseInt(req.params.machineId, 10));
-        return res.status(200).send(recipes);
+        const config = await drinkConfigService.getDrinkConfig(parseInt(req.params.machineId, 10));
+        return res.status(200).send(config);
       } catch (e) {
         return handleError(e, res);
       }
     },
   );
 
-  // TODO
   /**
    * @swagger
    * /drinkConfig/{machineId}:
@@ -69,7 +65,6 @@ export const drinkConfigRoutes = () => {
    */
   router.put(
     '/:machineId',
-    // isAuth,
     drinkConfigsValidation,
     async (req: Request<any, null, DrinkConfigBody[]> & AuthRequest, res: Response) => {
       try {
