@@ -1,9 +1,9 @@
 import { IIngredient } from '@root/entities';
 import { IngredientDTO } from './types';
 
-export const toIngredientDTO = async (
+export const toIngredientDTO = (
   ingredient: IIngredient,
-): Promise<IngredientDTO> => ({
+): IngredientDTO => ({
   id: ingredient.id,
   name: ingredient.name,
 });

@@ -1,4 +1,3 @@
-import { IQueueRepository, QueueRepository } from '@root/repositories/queue.repository';
 import { DrinkConfigRepository, IDrinkConfigRepository } from '@root/repositories/drinkConfig.repository';
 import StatusError from '@root/utils/statusError';
 import { DrinkConfigBody } from '@root/routes/drinkconfig/types';
@@ -8,38 +7,36 @@ import { DrinkConfigDTO } from './types';
 import { toDrinkConfigDTO } from './drinkconfig.dto';
 
 export interface IDrinkConfigService {
-  getDrinkConfig(machineId: number): Promise<DrinkConfigDTO[]>
+  getDrinkConfig(machineId: number): Promise<DrinkConfigDTO[]>;
   updataDrinkConfig(putBody: DrinkConfigBody, machineId: number): Promise<DrinkConfigDTO[]>;
 }
 export class DrinkConfigService implements IDrinkConfigService {
   constructor(
-    private queueRepository: IQueueRepository = new QueueRepository(),
     private drinkConfigRepository: IDrinkConfigRepository = new DrinkConfigRepository(),
     private ingredientRepository: IIngredientRepository = new IngredientRepository(),
   ) { }
 
   async getDrinkConfig(machineId: number): Promise<DrinkConfigDTO[]> {
     const drinkConfig = await this.drinkConfigRepository.getMachineConfig(machineId);
-    const drinkConfDTOs = drinkConfig.map <Promise<DrinkConfigDTO>>(
-      (dk: DrinkConfig) => toDrinkConfigDTO(dk),
-    );
-    return Promise.all(drinkConfDTOs);
+    if (!drinkConfig) {
+      throw new StatusError(404, 'Drink config not found');
+    }
+    return drinkConfig.map(toDrinkConfigDTO);
   }
 
   async updataDrinkConfig(putBody: DrinkConfigBody, machineID: number) {
-    const drinkConfigs = await this.drinkConfigRepository.getMachineConfig(machineID);
-    if (drinkConfigs.length !== putBody.length) {
-      throw new StatusError(400, 'wrong number of drinkConfigs');
-    }
+    await this.drinkConfigRepository.deleteByMachineId(machineID);
 
-    drinkConfigs.forEach(async (dC, i) => {
-      drinkConfigs[i].amountLeft = putBody[i].amountLeft;
-      drinkConfigs[i].ingredient = await this.ingredientRepository
-        .getIngredientById(putBody[i].ingredientId);
-    });
+    const drinkConfigs = await Promise.all(putBody.map(async (dC, index) => {
+      const drinkConfig = new DrinkConfig();
+      drinkConfig.serialNumber = machineID;
+      drinkConfig.hopperNum = index + 1;
+      drinkConfig.amountLeft = dC.amountLeft;
+      drinkConfig.ingredient = await this.ingredientRepository.getIngredientById(dC.ingredientId);
+      return drinkConfig;
+    }));
 
     const resp = await this.drinkConfigRepository.saveMany(drinkConfigs);
-    const arst = resp.map<Promise<DrinkConfigDTO>>((dc) => toDrinkConfigDTO(dc));
-    return Promise.all(arst);
+    return resp.map(toDrinkConfigDTO);
   }
 }

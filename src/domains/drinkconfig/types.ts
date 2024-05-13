@@ -1,5 +1,7 @@
+import { IngredientDTO } from '../ingredients/types';
+
 export type DrinkConfigDTO = {
-  ingredient: number;
+  ingredient: IngredientDTO | null;
   amountLeft: number;
   machineId: number;
   hopperNum: number;
