@@ -31,7 +31,7 @@ export class RecipeRepository implements IRecipeRepository {
 
   async getRecipeBySearch(req: Request) {
     const search = req.query.search || '';
-    const page = parseInt(req.query.page?.toString(), 10) - 1 || 0;
+    const page = (parseInt(req.query.page?.toString(), 10) - 1 || 0) + 1;
     const limit = parseInt(req.query.limit?.toString(), 10) || 5;
 
     const totalCount = await this.repository
