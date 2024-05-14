@@ -33,6 +33,11 @@ export class QueueRepository implements IQueueRepository {
       where: {
         id,
       },
+      relations: {
+        recipe: {
+          ingredients: true,
+        },
+      },
     });
   }
 
