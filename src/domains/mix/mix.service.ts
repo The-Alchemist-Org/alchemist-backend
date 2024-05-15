@@ -60,7 +60,7 @@ export class MixService implements IMixService {
     });
 
     doneQueueItem.doneAt = new Date();
-    this.drinkConfigRepository.saveMany(updatedDrinkConfig);
+    await this.drinkConfigRepository.saveMany(updatedDrinkConfig);
     return this.queueRepository.save(doneQueueItem);
   }
 }
