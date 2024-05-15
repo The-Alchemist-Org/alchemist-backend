@@ -1,14 +1,16 @@
 import {
   Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn,
 } from 'typeorm';
-import { Recipe } from './recipe.entity';
-import { Ingredient } from './ingredient.entity';
+import { IRecipe, Recipe } from './recipe.entity';
+import { IIngredient, Ingredient } from './ingredient.entity';
 
 export interface IRecipeToIngredient {
   id: number;
   recipeId: number;
   ingredientId: number;
   quantity: number;
+  recipe: IRecipe;
+  ingredient: IIngredient;
 }
 
 @Entity('recipe_to_ingredient')

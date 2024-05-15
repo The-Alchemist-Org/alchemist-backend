@@ -13,9 +13,14 @@ export class RecipeToIngredientRepository implements IRecipeToIngredientReposito
   = buildRepository<IRecipeToIngredient>(RecipeToIngredient)) {}
 
   async getIngredientsById(recipeId: number) {
-    return this.repository.createQueryBuilder('recipe_to_ingredient')
-      .where('recipe_to_ingredient.recipe_id = :recipeId', { recipeId })
-      .getMany();
+    return this.repository.find({
+      where: {
+        recipeId,
+      },
+      relations: {
+        ingredient: true,
+      },
+    });
   }
 
   async save(ingredient: RecipeToIngredient) {
