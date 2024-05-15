@@ -54,7 +54,7 @@ export class MixService implements IMixService {
         drinkConfig[i].amountLeft
        -= doneQueueItem.recipe.ingredients.find(
             (rtoi) => rtoi.ingredientId === dc.ingredient.id,
-          ).quantity;
+          )?.quantity ?? 0;
       }
       return drinkConfig[i];
     });
@@ -64,8 +64,3 @@ export class MixService implements IMixService {
     return this.queueRepository.save(doneQueueItem);
   }
 }
-
-/*
-INSERT INTO queues (serial_number, recipe_id) VALUES (3,7)
-INSERT INTO drink_config (ingredient, amount_left, hopper_num, serial_number) VALUES (1,1000,1,3),(null,1000,2,3),(null,1000,3,3),(2,1000,4,3),(null,1000,5,3);
-*/
