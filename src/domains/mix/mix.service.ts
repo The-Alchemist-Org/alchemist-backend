@@ -23,13 +23,13 @@ export class MixService implements IMixService {
     }
     const drinkConfig = await this.drinkConfigRepository.getMachineConfig(machineId);
     const mixableIngredients = qitem.recipe.ingredients.filter((ingr) => {
-      const test = drinkConfig.find((dc) => dc.ingredient?.id === ingr.ingredientId);
-      return test != null;
+      const config = drinkConfig.find((dc) => dc.ingredient?.id === ingr.ingredientId);
+      return config != null;
     });
     const mixableIngredientMachineSlots = mixableIngredients.map(
       (ingr) => drinkConfig.find((dc) => dc.ingredient.id === ingr.ingredientId).hopperNum,
     );
-    const mixableIngredientQuantities = mixableIngredients.map((ingr) => ingr.quantity);
+    const mixableIngredientQuantities = mixableIngredients.map((ingr) => ingr.quantity ?? 0);
     return toMixDTO(mixableIngredientMachineSlots, mixableIngredientQuantities, qitem.id);
   }
 
