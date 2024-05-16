@@ -28,10 +28,8 @@ export class RecipeToIngredientRepository implements IRecipeToIngredientReposito
   }
 
   async delete(id: number) {
-    return this.repository.createQueryBuilder('recipe_to_ingredient')
-      .delete()
-      .from(RecipeToIngredient)
-      .where('recipe_to_ingredient.recipe_id = :id', { id })
-      .execute();
+    return this.repository.delete({
+      recipeId: id,
+    });
   }
 }
