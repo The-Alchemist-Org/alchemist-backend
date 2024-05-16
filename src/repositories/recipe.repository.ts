@@ -34,16 +34,20 @@ export class RecipeRepository implements IRecipeRepository {
     const page = (parseInt(req.query.page?.toString(), 10) - 1 || 0) + 1;
     const limit = parseInt(req.query.limit?.toString(), 10) || 5;
 
-    const totalCount = await this.repository
-      .createQueryBuilder('recipe')
-      .where('recipe.name ILIKE :search', { search: `%${search}%` })
-      .getCount();
+    const totalCountQueryBuilder = this.repository.createQueryBuilder('recipe');
+    totalCountQueryBuilder.where('recipe.name ILIKE :search', { search: `%${search}%` });
+    if (req.query.uploadedBy) {
+      totalCountQueryBuilder.andWhere('recipe.uploadedBy = :uploadedBy', { uploadedBy: req.query.uploadedBy });
+    }
+    const totalCount = await totalCountQueryBuilder.getCount();
 
-    const results = await this.repository.createQueryBuilder('recipe')
-      .where('recipe.name ILIKE :search', { search: `%${search}%` })
-      .offset(page * limit)
-      .limit(limit)
-      .getMany();
+    const queryBuilder = this.repository.createQueryBuilder('recipe');
+
+    queryBuilder.where('recipe.name ILIKE :search', { search: `%${search}%` });
+    if (req.query.uploadedBy) {
+      queryBuilder.andWhere('recipe.uploadedBy = :uploadedBy', { uploadedBy: req.query.uploadedBy });
+    }
+    const results = await queryBuilder.offset(page * limit).limit(limit).getMany();
 
     const totalPages = Math.ceil(totalCount / limit);
 
