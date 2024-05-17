@@ -6,6 +6,7 @@ import { Request } from 'express';
 import { RecipeBody } from '@root/routes/recipes/types';
 import { UserRepository } from '@root/repositories/user.repository';
 import { DeleteResult } from 'typeorm';
+import { IQueueRepository, QueueRepository } from '@root/repositories/queue.repository';
 import { toRecipesDTO } from './recipes.dto';
 import { RecipeServiceResult, RecipesDTO } from './types';
 
@@ -21,6 +22,7 @@ export class RecipeService implements IRecipeService {
     private recipeRepository: IRecipeRepository = new RecipeRepository(),
     private recipeToIngredientRepository: IRecipeToIngredientRepository
     = new RecipeToIngredientRepository(),
+    private queueRepository: IQueueRepository = new QueueRepository(),
     private authRepository = new UserRepository(),
   ) { }
 
@@ -102,6 +104,12 @@ export class RecipeService implements IRecipeService {
 
     if (recipe.uploadedBy !== userId) {
       throw new StatusError(403, 'Not the owner');
+    }
+
+    const queueItems = await this.queueRepository.getQueueItemsByRecipeId(recipe.id);
+
+    if (queueItems.length > 0) {
+      await this.queueRepository.deleteByRecipeId(recipeId);
     }
 
     await this.recipeToIngredientRepository.delete(recipe.id);
