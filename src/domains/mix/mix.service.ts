@@ -26,6 +26,11 @@ export class MixService implements IMixService {
       const config = drinkConfig.find((dc) => dc.ingredient?.id === ingr.ingredientId);
       return config != null;
     });
+    mixableIngredients.filter((ing) => {
+      const slot = drinkConfig.find((dc) => dc.ingredient?.id === ing.ingredientId);
+      if (slot.amountLeft < ing.quantity) { throw new StatusError(400, 'ingredient outage'); }
+      return null;
+    });
     const mixableIngredientMachineSlots = mixableIngredients.map(
       (ingr) => drinkConfig.find((dc) => dc.ingredient.id === ingr.ingredientId).hopperNum,
     );
@@ -43,9 +48,9 @@ export class MixService implements IMixService {
     if (doneQueueItem.serialNumber !== doneBody.machineId) {
       throw new StatusError(409, 'This queue item belongs to another machine.');
     }
-    /* if (doneQueueItem.doneAt !== null) {
+    if (doneQueueItem.doneAt !== null) {
       throw new StatusError(409, 'This queue item is already done.');
-    } */
+    }
     const drinkConfig = await this.drinkConfigRepository.getMachineConfig(
       doneQueueItem.serialNumber,
     );
